@@ -13,6 +13,7 @@ import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
+
   const { user } = useUser();
   return (
     <>
@@ -30,8 +31,14 @@ const Home: NextPage = () => {
         </SignedOut>
 
         <SignedIn>
-          {user?.username} is signed in!
           <UserButton />
+          {user?.username} is signed in!
+          <Link
+            className="border-solid-grey border-2 p-3 hover:bg-purple-400"
+            href="/notes"
+          >
+            view all notes
+          </Link>
         </SignedIn>
       </main>
     </>
