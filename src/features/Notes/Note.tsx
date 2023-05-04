@@ -1,4 +1,5 @@
 import React from "react";
+import { api } from "~/utils/api";
 
 type Note = {
   id: string;
@@ -14,10 +15,17 @@ type Props = {
 };
 
 export default function Note({ note }: Props) {
+  const { mutate } = api.notes.deleteNote.useMutation();
+
+  const handleDelete = (noteId: string): void => {
+    mutate({ noteId });
+  };
+
   return (
-    <li>
-      <p>{note.title}</p>
+    <li className="w-96 rounded-xl border-2 border-slate-500 p-2">
+      <p className="text-2xl">{note.title}</p>
       <p>{note.content}</p>
+      <p onClick={() => handleDelete(note.id)}>🗑️</p>
     </li>
   );
 }

@@ -30,4 +30,15 @@ export const notesRouter = createTRPCRouter({
       });
       return note;
     }),
+  deleteNote: publicProcedure
+    .input(z.object({ noteId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { noteId } = input;
+      const deleted = await ctx.prisma.note.delete({
+        where: {
+          id: noteId,
+        },
+      });
+      return deleted;
+    }),
 });
