@@ -28,9 +28,10 @@ export default function CreateNote() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-5 border-2 border-gray-400"
+      className="flex flex-col gap-5 rounded-lg border-2 border-slate-400 p-5"
     >
       <input
+        className="focus: outline-none"
         type="text"
         onChange={handleChange}
         name="title"
@@ -39,13 +40,15 @@ export default function CreateNote() {
       ></input>
       <input
         type="text"
+        className="focus:outline-none"
         onChange={handleChange}
         name="content"
         value={newNote.content}
         placeholder="new note content"
       ></input>
       <button
-        className="border-2 border-gray-400 hover:bg-purple-400"
+        className="rounded-lg border-2
+        border-slate-400 hover:bg-purple-400"
         type="submit"
       >
         add new note!

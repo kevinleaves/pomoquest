@@ -16,15 +16,16 @@ export default function Notes() {
   }
 
   return (
-    <main className="flex flex-col">
-      <CreateNote />
-      <NoteList notes={notes} ordered={false} />
+    <main className="flex h-screen w-screen flex-col items-center gap-5">
       <Link
-        className="border-solid-grey border-2 p-3 hover:bg-purple-400"
+        className="border-solid-grey rounded-lg border-2 p-3 hover:bg-purple-400"
         href="/"
       >
         back to homepage
       </Link>
+      <CreateNote />
+
+      <NoteList notes={notes} ordered={false} />
     </main>
   );
 }

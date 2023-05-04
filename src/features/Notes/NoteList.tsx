@@ -23,7 +23,7 @@ export default function NoteList({ notes, ordered }: Props) {
       })}
     </ol>
   ) : (
-    <ul>
+    <ul className="flex w-11/12 flex-wrap gap-5">
       {notes?.map((note) => {
         return <Note key={note.id} note={note} />;
       })}
