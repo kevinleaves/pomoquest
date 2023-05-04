@@ -33,6 +33,7 @@ const Home: NextPage = () => {
         <SignedIn>
           <UserButton />
           {user?.username} is signed in!
+          {user?.id}
           <Link
             className="border-solid-grey border-2 p-3 hover:bg-purple-400"
             href="/notes"
