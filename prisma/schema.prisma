@@ -11,12 +11,17 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
+// auth
 model User {
     id String @id
+}
+
+model Note {
+    id      String      @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    content String
+    authorId String
+
+    @@index([authorId])
 }
