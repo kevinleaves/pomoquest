@@ -19,7 +19,7 @@ export default function CreateNote() {
     setNewNote(newObj);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutate(newNote);
     setNewNote(initialState);
@@ -47,7 +47,6 @@ export default function CreateNote() {
       <button
         className="border-2 border-gray-400 hover:bg-purple-400"
         type="submit"
-        on
       >
         add new note!
       </button>

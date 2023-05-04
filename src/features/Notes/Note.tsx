@@ -2,8 +2,8 @@ import React from "react";
 
 type Note = {
   id: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   title: string;
   content: string;
   authorId: string;

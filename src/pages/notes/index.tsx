@@ -5,7 +5,16 @@ import NoteList from "~/features/Notes/NoteList";
 import { api } from "~/utils/api";
 
 export default function Notes() {
-  const { data: notes } = api.notes.getAll.useQuery();
+  const { data: notes, isLoading, error } = api.notes.getAll.useQuery();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <main className="flex flex-col">
       <CreateNote />

@@ -3,8 +3,8 @@ import Note from "./Note";
 
 type Note = {
   id: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   title: string;
   content: string;
   authorId: string;

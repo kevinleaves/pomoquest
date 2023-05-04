@@ -12,11 +12,10 @@ export const notesRouter = createTRPCRouter({
       };
     }),
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const notes = ctx.prisma.note.findMany({
+    const notes = await ctx.prisma.note.findMany({
       take: 10,
     });
-    const users = await clerkClient.users.getUserList();
-
+    // const users = await clerkClient.users.getUserList();
     return notes;
   }),
   createNote: publicProcedure
