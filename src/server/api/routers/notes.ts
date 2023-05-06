@@ -1,7 +1,11 @@
 import { z } from "zod";
 import { clerkClient } from "@clerk/nextjs/server";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  privateProcedure,
+} from "~/server/api/trpc";
 
 export const notesRouter = createTRPCRouter({
   hello: publicProcedure
@@ -11,15 +15,20 @@ export const notesRouter = createTRPCRouter({
         greeting: `Hello ${input.text}`,
       };
     }),
-  getAll: publicProcedure.query(async ({ ctx }) => {
+  getAll: privateProcedure.query(async ({ ctx }) => {
     const notes = await ctx.prisma.note.findMany({
       take: 10,
     });
     // const users = await clerkClient.users.getUserList();
     return notes;
   }),
-  createNote: publicProcedure
-    .input(z.object({ title: z.string(), content: z.string() }))
+  createNote: privateProcedure
+    .input(
+      z.object({
+        title: z.string().min(5).max(100),
+        content: z.string().max(255),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
       const note = await ctx.prisma.note.create({
         data: {
@@ -30,7 +39,7 @@ export const notesRouter = createTRPCRouter({
       });
       return note;
     }),
-  deleteNote: publicProcedure
+  deleteNote: privateProcedure
     .input(z.object({ noteId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const { noteId } = input;

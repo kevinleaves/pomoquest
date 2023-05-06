@@ -27,12 +27,10 @@ import { TRPCError } from "@trpc/server";
 export const createTRPCContext = (opts: CreateNextContextOptions) => {
   const { req } = opts;
   const authState = getAuth(req);
-  const { user } = authState;
-  console.log(user, "user");
-  console.log(authState, "authState");
+  const { userId } = authState;
   return {
     prisma,
-    currentUser: user,
+    currentUser: userId,
   };
 };
 
