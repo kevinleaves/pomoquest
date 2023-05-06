@@ -15,35 +15,25 @@
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-
+import { getAuth } from "@clerk/nextjs/server";
 import { prisma } from "~/server/db";
-
-type CreateContextOptions = Record<string, never>;
-
-/**
- * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
- * it from here.
- *
- * Examples of things you may need it for:
- * - testing, so we don't have to mock Next.js' req/res
- * - tRPC's `createSSGHelpers`, where we don't have req/res
- *
- * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
- */
-const createInnerTRPCContext = (_opts: CreateContextOptions) => {
-  return {
-    prisma,
-  };
-};
-
+import { TRPCError } from "@trpc/server";
 /**
  * This is the actual context you will use in your router. It will be used to process every request
  * that goes through your tRPC endpoint.
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (_opts: CreateNextContextOptions) => {
-  return createInnerTRPCContext({});
+export const createTRPCContext = (opts: CreateNextContextOptions) => {
+  const { req } = opts;
+  const authState = getAuth(req);
+  const { user } = authState;
+  console.log(user, "user");
+  console.log(authState, "authState");
+  return {
+    prisma,
+    currentUser: user,
+  };
 };
 
 /**
@@ -93,3 +83,17 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+const isAuthed = t.middleware(({ ctx, next }) => {
+  // console.log(ctx.currentUser, "currentUser");
+  if (!ctx.currentUser) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      currentUser: ctx.currentUser,
+    },
+  });
+});
+
+export const privateProcedure = t.procedure.use(isAuthed);
