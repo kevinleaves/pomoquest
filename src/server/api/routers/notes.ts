@@ -34,7 +34,7 @@ export const notesRouter = createTRPCRouter({
         data: {
           title: input.title,
           content: input.content,
-          authorId: "user_2PJ0oXvZnVTv9vy6txsi2qX53v9",
+          authorId: ctx.currentUser,
         },
       });
       return note;

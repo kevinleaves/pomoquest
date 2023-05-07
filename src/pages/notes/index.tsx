@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import CreateNote from "~/features/Notes/CreateNote";
-import NoteList from "~/features/Notes/NoteList";
+import CreateNote from "~/features/notes/components/CreateNote";
+import NoteList from "~/features/notes/components/NoteList";
 import { api } from "~/utils/api";
 
 export default function Notes() {
@@ -16,7 +16,7 @@ export default function Notes() {
   }
 
   return (
-    <main className="flex h-screen w-screen flex-col items-center gap-5">
+    <main className="flex h-screen w-screen flex-col gap-5 ">
       <Link
         className="border-solid-grey rounded-lg border-2 p-3 hover:bg-purple-400"
         href="/"
@@ -24,7 +24,6 @@ export default function Notes() {
         back to homepage
       </Link>
       <CreateNote />
-
       <NoteList notes={notes} ordered={false} />
     </main>
   );

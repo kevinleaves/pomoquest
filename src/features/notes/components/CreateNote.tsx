@@ -6,7 +6,7 @@ const initialState = {
 };
 
 export default function CreateNote() {
-  const { mutate } = api.notes.createNote.useMutation();
+  const { mutate, isError, error } = api.notes.createNote.useMutation();
 
   const [newNote, setNewNote] = useState(initialState);
 
@@ -21,14 +21,18 @@ export default function CreateNote() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutate(newNote);
+    try {
+      mutate(newNote);
+    } catch (err) {
+      console.error(err);
+    }
     setNewNote(initialState);
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-5 rounded-lg border-2 border-slate-400 p-5"
+      className="flex w-11/12 flex-col gap-5 self-center rounded-lg border-2 border-slate-400 p-5"
     >
       <input
         className="focus: outline-none"
@@ -38,16 +42,16 @@ export default function CreateNote() {
         value={newNote.title}
         placeholder="title for a new note"
       ></input>
-      <input
+      <textarea
         type="text"
         className="focus:outline-none"
         onChange={handleChange}
         name="content"
         value={newNote.content}
         placeholder="new note content"
-      ></input>
+      ></textarea>
       <button
-        className="rounded-lg border-2
+        className="w-25 rounded-lg border-2
         border-slate-400 hover:bg-purple-400"
         type="submit"
       >

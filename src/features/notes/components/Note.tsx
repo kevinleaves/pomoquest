@@ -22,7 +22,7 @@ export default function Note({ note }: Props) {
   };
 
   return (
-    <li className="w-96 rounded-xl border-2 border-slate-500 p-2">
+    <li className="break-words  rounded-xl border-2 border-slate-500 p-2">
       <p className="text-2xl">{note.title}</p>
       <p>{note.content}</p>
       <p onClick={() => handleDelete(note.id)}>🗑️</p>

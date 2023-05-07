@@ -10,6 +10,7 @@ import {
 } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
+import Timer from "~/features/timer/components/Timer";
 
 const Home: NextPage = () => {
   const { user } = useUser();
@@ -20,9 +21,10 @@ const Home: NextPage = () => {
         <meta name="description" content="notes but audio" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-white">
+      <main className="flex min-h-screen flex-col items-center justify-center gap-5 bg-white">
         <SignedOut>
           <SignIn />
+          <Timer />
         </SignedOut>
 
         <SignedIn>
