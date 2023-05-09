@@ -6,11 +6,13 @@ const initialState = {
 };
 
 export default function CreateNote() {
-  const { mutate, isError, error } = api.notes.createNote.useMutation();
+  const { mutate } = api.notes.createNote.useMutation();
 
   const [newNote, setNewNote] = useState(initialState);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name }: { name: string } = e.target;
     const newObj = {
       ...newNote,
@@ -43,7 +45,6 @@ export default function CreateNote() {
         placeholder="title for a new note"
       ></input>
       <textarea
-        type="text"
         className="focus:outline-none"
         onChange={handleChange}
         name="content"
