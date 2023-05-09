@@ -1,31 +1,17 @@
 import React, { useState, useEffect } from "react";
 import useSound from "use-sound";
-
-const minutesToSeconds = (minutes: number): number => {
-  return minutes * 60;
-};
-
-const formatTime = (timeInSeconds: number): string => {
-  const minutes = Math.floor(timeInSeconds / 60);
-  const remainingSeconds = timeInSeconds - minutes * 60;
-  const formattedMinutes = minutes.toString().padStart(2, "0");
-  const formattedSeconds = remainingSeconds.toString().padStart(2, "0");
-  return `${formattedMinutes}:${formattedSeconds}`;
-};
+import { formatTime, minutesToSeconds } from "../utils/timerUtils";
+import useToggle from "../hooks/useToogle";
 
 export default function Timer() {
   const [time, setTime] = useState(minutesToSeconds(25));
-  const [status, setStatus] = useState(false);
+  const [status, { off: stopTimer, toggle: toggleTimer }] = useToggle();
 
   const formmatedTime = formatTime(time);
 
-  const toggleTimer = () => {
-    setStatus(!status);
-  };
-
   const resetTimer = () => {
     setTime(minutesToSeconds(25));
-    setStatus(false);
+    stopTimer();
   };
 
   useEffect(() => {
@@ -41,7 +27,7 @@ export default function Timer() {
   }, [status]);
 
   const StartButtonWithSound = () => {
-    const [play] = useSound("/ui-click.wav");
+    const [play] = useSound("/ui-click.wav", { playbackRate: 2 });
     const handleClick: React.MouseEventHandler<HTMLButtonElement> = () => {
       play();
       toggleTimer();
