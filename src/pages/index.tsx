@@ -1,16 +1,11 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import {
-  SignIn,
-  SignedIn,
-  SignedOut,
-  RedirectToSignIn,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignIn, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import Timer from "~/features/timer/components/Timer";
+import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
 
 const Home: NextPage = () => {
   const { user } = useUser();
@@ -24,13 +19,13 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center gap-5 bg-white">
         <SignedOut>
           <SignIn />
-          <Timer />
+          <Timer seconds={minutesToSeconds(25)} />
         </SignedOut>
 
         <SignedIn>
           <UserButton />
           {user?.username} is signed in!
-          {/* {user?.id} */}
+          <div>{JSON.stringify(user?.unsafeMetadata)}</div>
           <Link
             className="border-solid-grey rounded-lg border-2 p-3 hover:bg-purple-400"
             href="/notes"
