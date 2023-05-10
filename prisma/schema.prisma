@@ -14,6 +14,7 @@ datasource db {
 // auth
 model User {
     id String @id
+    coins Int
 }
 
 model Note {
