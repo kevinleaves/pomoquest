@@ -40,3 +40,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# webhooks
+webhook_basic.ts
+webhook_example.ts
