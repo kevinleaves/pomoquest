@@ -46,14 +46,16 @@ export default async function handler(
   const { id } = evt.data;
   // Handle the webhook
   const eventType: EventType = evt.type;
-  if (eventType === "user.created" || eventType === "user.updated") {
+  if (eventType === "user.created") {
     await prisma.user.create({
       data: {
         id,
         coins: 0,
       },
     });
+    return res.status(200).json({});
   }
+
   console.log(`User ${id} was ${eventType}`);
   res.status(201).json({});
 }
