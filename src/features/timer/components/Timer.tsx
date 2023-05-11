@@ -26,14 +26,14 @@ export default function Timer({ seconds }: Props) {
   useEffect(() => {
     let intervalId: string | number | NodeJS.Timeout | undefined;
 
-    if (status) {
+    if (status && time > 0) {
       intervalId = setInterval(() => {
         setTime((time) => time - 1);
       }, 1000);
     }
 
     return () => clearInterval(intervalId);
-  }, [status]);
+  }, [status, time]);
 
   return (
     <div className="flex h-80 w-5/6 max-w-md flex-col items-center justify-center gap-5 overflow-hidden rounded-3xl border p-24 md:w-1/2">
