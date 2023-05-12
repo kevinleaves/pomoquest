@@ -33,4 +33,24 @@ export const coinsRouter = createTRPCRouter({
       },
     });
   }),
+  addCoins: privateProcedure
+    .input(
+      z.object({
+        amount: z.number().positive().int(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userID = ctx.currentUser;
+      const { amount } = input;
+      await ctx.prisma.user.update({
+        where: {
+          id: userID,
+        },
+        data: {
+          coins: {
+            increment: amount,
+          },
+        },
+      });
+    }),
 });

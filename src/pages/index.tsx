@@ -10,6 +10,7 @@ import CoinView from "~/features/coins/components/CoinView";
 
 const Home: NextPage = () => {
   const { user } = useUser();
+
   return (
     <>
       <Head>
