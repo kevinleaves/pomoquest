@@ -20,4 +20,17 @@ export const coinsRouter = createTRPCRouter({
       return user.coins;
     }
   }),
+  addTenCoins: privateProcedure.mutation(async ({ ctx }) => {
+    const userID = ctx.currentUser;
+    await ctx.prisma.user.update({
+      where: {
+        id: userID,
+      },
+      data: {
+        coins: {
+          increment: 10,
+        },
+      },
+    });
+  }),
 });
