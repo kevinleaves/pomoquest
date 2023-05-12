@@ -1,11 +1,7 @@
 import { z } from "zod";
 import { clerkClient } from "@clerk/nextjs/server";
 
-import {
-  createTRPCRouter,
-  publicProcedure,
-  privateProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
 export const coinsRouter = createTRPCRouter({
   getCoins: privateProcedure.query(async ({ ctx }) => {
@@ -49,6 +45,26 @@ export const coinsRouter = createTRPCRouter({
         data: {
           coins: {
             increment: amount,
+          },
+        },
+      });
+    }),
+  subtractCoins: privateProcedure
+    .input(
+      z.object({
+        amount: z.number().positive().int(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userID = ctx.currentUser;
+      const { amount } = input;
+      await ctx.prisma.user.update({
+        where: {
+          id: userID,
+        },
+        data: {
+          coins: {
+            decrement: amount,
           },
         },
       });

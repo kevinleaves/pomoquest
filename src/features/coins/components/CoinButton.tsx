@@ -4,15 +4,16 @@ import { api } from "~/utils/api";
 interface Props {
   onClick: () => void;
   amount: number;
+  operation: string;
 }
-export default function CoinButton({ onClick, amount }: Props) {
+export default function CoinButton({ onClick, amount, operation }: Props) {
   return (
     <>
       <button
         className="rounded-xl border border-slate-200 p-5 duration-200 hover:scale-125 hover:bg-pink-300"
         onClick={onClick}
       >
-        ADD {amount} COINS
+        {operation} {amount} COINS
       </button>
     </>
   );
