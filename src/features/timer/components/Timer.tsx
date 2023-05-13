@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import useSound from "use-sound";
 import { formatTime } from "../utils/timerUtils";
 import useToggle from "../hooks/useToogle";
+import { api } from "~/utils/api";
 
 interface Props {
   seconds: number;
@@ -12,6 +13,9 @@ export default function Timer({ seconds }: Props) {
   const [status, { off: stopTimer, toggle: toggleTimer }] = useToggle();
   const [play] = useSound("/ui-click.wav", { playbackRate: 2 });
   const formmatedTime = formatTime(time);
+  const { mutate: addCoins } = api.coins.addCoins.useMutation({
+    // onSuccess: () => refetchCoins(),
+  });
 
   const resetTimer = () => {
     setTime(seconds);
@@ -32,8 +36,12 @@ export default function Timer({ seconds }: Props) {
       }, 1000);
     }
 
+    if (time === 0) {
+      addCoins({ amount: 25 });
+    }
+
     return () => clearInterval(intervalId);
-  }, [status, time]);
+  }, [status, time, addCoins]);
 
   return (
     <div className="flex h-80 w-5/6 max-w-md flex-col items-center justify-center gap-5 overflow-hidden rounded-3xl border p-24 md:w-1/2">
