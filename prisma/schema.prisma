@@ -13,8 +13,10 @@ datasource db {
 
 // auth
 model User {
-    id String @id
-    coins Int
+    id        String @id
+    coins     Int
+    unlocks   Unlock[]
+    settings  Setting[]
 }
 
 model Note {
@@ -27,4 +29,20 @@ model Note {
     @@index([authorId])
 }
 
+model Unlock {
+  id        String    @id @default(cuid())
+  name      String
+  cost      Int
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
+  @@index([userId])
+}
 
+model Setting {
+  id        String   @id @default(cuid())
+  name      String
+  value     String
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
+  @@index([userId])
+}
