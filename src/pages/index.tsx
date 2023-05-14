@@ -11,6 +11,8 @@ import CoinView from "~/features/coins/components/CoinView";
 const Home: NextPage = () => {
   const { user } = useUser();
 
+  const { data: bgcolor } = api.settings.getCurrentBgColor.useQuery();
+
   return (
     <>
       <Head>
@@ -18,7 +20,10 @@ const Home: NextPage = () => {
         <meta name="description" content="notes but audio" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center gap-5 bg-white">
+      <main
+        className="flex min-h-screen flex-col items-center justify-center gap-5"
+        style={{ backgroundColor: bgcolor }}
+      >
         <SignedOut>
           <SignIn />
           <Timer seconds={minutesToSeconds(25)} />
@@ -27,7 +32,6 @@ const Home: NextPage = () => {
         <SignedIn>
           <UserButton />
           {user?.username} is signed in!
-          <div>{JSON.stringify(user?.unsafeMetadata)}</div>
           <Timer seconds={minutesToSeconds(25)} />
           <Timer seconds={5} />
           <CoinView />
