@@ -14,4 +14,23 @@ export const settingsRouter = createTRPCRouter({
 
     return settingEntry?.value;
   }),
+  updateBgColor: privateProcedure
+    .input(
+      z.object({
+        hexValue: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userID = ctx.currentUser;
+      const { hexValue } = input;
+      await ctx.prisma.userSetting.updateMany({
+        where: {
+          userId: userID,
+          key: "bg-color",
+        },
+        data: {
+          value: hexValue,
+        },
+      });
+    }),
 });
