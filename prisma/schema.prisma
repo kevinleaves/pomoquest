@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["extendedWhereUnique"]
 }
 
 datasource db {
@@ -12,12 +13,6 @@ datasource db {
 }
 
 // auth
-model User {
-    id        String @id
-    coins     Int
-    unlocks   Unlock[]
-    settings  Setting[]
-}
 
 model Note {
     id      String      @id @default(cuid())
@@ -29,20 +24,27 @@ model Note {
     @@index([authorId])
 }
 
-model Unlock {
-  id        String    @id @default(cuid())
+model User {
+  id        String      @id
+  coins     Int
+  unlocks   Unlockable[]
+  settings  UserSetting[]
+}
+
+model Unlockable {
+  id        String      @id @default(cuid())
   name      String
   cost      Int
   userId    String
-  user      User   @relation(fields: [userId], references: [id])
+  user      User        @relation(fields: [userId], references: [id])
   @@index([userId])
 }
 
-model Setting {
-  id        String   @id @default(cuid())
-  name      String
+model UserSetting {
+  id        String      @id @default(cuid())
+  key       String
   value     String
   userId    String
-  user      User   @relation(fields: [userId], references: [id])
+  user      User        @relation(fields: [userId], references: [id])
   @@index([userId])
 }
