@@ -43,10 +43,11 @@ const Home: NextPage = () => {
         </SignedOut>
 
         <SignedIn>
-          <UserButton />
-          {user?.username} is signed in!
+          <UserButton
+            afterSignOutUrl={"https://t3cruddymusicnotes.vercel.app/"}
+          />
           <Timer seconds={minutesToSeconds(25)} />
-          <Timer seconds={5} />
+          <Timer seconds={minutesToSeconds(5)} />
           <CoinView />
           <form onSubmit={updateBgColor}>
             <input value={input} onChange={handleInput}></input>
