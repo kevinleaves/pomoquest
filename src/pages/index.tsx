@@ -7,6 +7,7 @@ import { api } from "~/utils/api";
 import Timer from "~/features/timer/components/Timer";
 import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
 import CoinView from "~/features/coins/components/CoinView";
+import Navbar from "~/features/navbar/components/Navbar";
 import { useState } from "react";
 
 const Home: NextPage = () => {
@@ -34,23 +35,15 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        className="flex min-h-screen flex-col items-center justify-center gap-5"
+        className="flex min-h-screen flex-col items-center gap-5"
         style={{ backgroundColor: bgcolor }}
       >
+        <Navbar />
         <SignedOut>
-          <Link
-            className="border-solid-grey rounded-lg border-2 p-3 hover:bg-purple-400"
-            href={"/login"}
-          >
-            login
-          </Link>
           <Timer seconds={minutesToSeconds(25)} />
+          <Timer seconds={minutesToSeconds(5)} />
         </SignedOut>
-
         <SignedIn>
-          <UserButton
-            afterSignOutUrl={"https://t3cruddymusicnotes.vercel.app/"}
-          />
           <Timer seconds={minutesToSeconds(25)} />
           <Timer seconds={minutesToSeconds(5)} />
           <CoinView />
