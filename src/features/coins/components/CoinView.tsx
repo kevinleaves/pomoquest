@@ -1,6 +1,6 @@
 import React from "react";
 import { api } from "~/utils/api";
-import CoinButton from "./CoinButton";
+import Button from "../../common/components/Button";
 
 export default function CoinView() {
   // setup - state and hooks
@@ -40,16 +40,11 @@ export default function CoinView() {
       <div className="rounded-xl border border-slate-500 p-5">
         {formattedCoins}
       </div>
-      <CoinButton operation={"ADD"} onClick={() => addTenCoins()} amount={10} />
-      <CoinButton
-        operation={"ADD"}
-        onClick={() => addCoins({ amount: 25 })}
-        amount={25}
-      />
-      <CoinButton
-        operation={"SUBTRACT"}
+      <Button text={"ADD 10 COINS"} onClick={() => addTenCoins()} />
+      <Button text={"ADD 25 COINS"} onClick={() => addCoins({ amount: 25 })} />
+      <Button
+        text={"SUBTRACT 25 COINS"}
         onClick={() => subtractCoins({ amount: 25 })}
-        amount={25}
       />
     </>
   );
