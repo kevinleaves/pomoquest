@@ -13,8 +13,12 @@ import { useState } from "react";
 const Home: NextPage = () => {
   const { user } = useUser();
 
-  const { data: bgcolor } = api.settings.getCurrentBgColor.useQuery();
-  const { mutate } = api.settings.updateBgColor.useMutation();
+  const { data: bgcolor, refetch: refetchBGColor } =
+    api.settings.getCurrentBgColor.useQuery();
+
+  const { mutate } = api.settings.updateBgColor.useMutation({
+    onSuccess: () => refetchBGColor(),
+  });
 
   const [input, setInput] = useState("");
 

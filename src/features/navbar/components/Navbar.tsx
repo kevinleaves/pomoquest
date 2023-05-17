@@ -8,8 +8,8 @@ export default function Navbar() {
     <div className="flex items-center justify-between border-b border-slate-300 p-2 md:h-16 md:w-1/2">
       <h1 className="text-md justify-self-center md:text-3xl">pomoquest</h1>
       <div className="flex gap-2 md:gap-5">
-        <button>settings</button>
-        <button>coins</button>
+        <button className="font-light">settings</button>
+        <button className="font-light">coins</button>
         <SignedOut>
           <Link
             className="border-solid-grey rounded-lg border-2 p-3 hover:bg-purple-400"
