@@ -29,7 +29,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>aud.io</title>
+        <title>pomoquest.io</title>
         <meta name="description" content="notes but audio" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -38,7 +38,12 @@ const Home: NextPage = () => {
         style={{ backgroundColor: bgcolor }}
       >
         <SignedOut>
-          <SignIn />
+          <Link
+            className="border-solid-grey rounded-lg border-2 p-3 hover:bg-purple-400"
+            href={"/login"}
+          >
+            login
+          </Link>
           <Timer seconds={minutesToSeconds(25)} />
         </SignedOut>
 
