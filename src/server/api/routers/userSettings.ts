@@ -33,4 +33,23 @@ export const settingsRouter = createTRPCRouter({
         },
       });
     }),
+
+  getCurrentAlarmSound: privateProcedure.query(async ({ ctx }) => {
+    const userID = ctx.currentUser;
+
+    const res = await ctx.prisma.userSetting.findMany({
+      where: {
+        userId: userID,
+        key: "alarm-sound",
+      },
+    });
+
+    if (res.length > 0) {
+      const alarmSound = res[0]?.value;
+      return alarmSound;
+    }
+
+    // fallback
+    return "/basicalarm.wav";
+  }),
 });
