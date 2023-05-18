@@ -11,7 +11,9 @@ interface Props {
 export default function Timer({ seconds }: Props) {
   const [time, setTime] = useState(seconds);
   const [status, { off: stopTimer, toggle: toggleTimer }] = useToggle();
-  const [play] = useSound("/ui-click.wav", { playbackRate: 2 });
+  const [playClick] = useSound("/ui-click.wav", { playbackRate: 2 });
+  const [playAlarm] = useSound("/alienalarm.wav", { playbackRate: 2 });
+
   const formmatedTime = formatTime(time);
   const { mutate: addCoins } = api.coins.addCoins.useMutation({
     // onSuccess: () => refetchCoins(),
@@ -23,7 +25,7 @@ export default function Timer({ seconds }: Props) {
   };
 
   const handleClick = () => {
-    play();
+    playClick();
     toggleTimer();
   };
 
@@ -38,13 +40,14 @@ export default function Timer({ seconds }: Props) {
 
     if (time === 0) {
       addCoins({ amount: 25 });
+      playAlarm();
     }
 
     return () => clearInterval(intervalId);
-  }, [status, time, addCoins]);
+  }, [status, time, addCoins, playAlarm]);
 
   return (
-    <div className="flex h-80 w-5/6 max-w-md flex-col items-center justify-center gap-5 overflow-hidden rounded-3xl border p-24 md:w-1/2">
+    <div className="flex h-80 w-5/6 max-w-md flex-col items-center justify-center gap-5 overflow-hidden rounded-3xl border bg-[#212A3E] p-24 text-white md:w-1/2">
       <div className="text-8xl md:text-9xl">{formmatedTime}</div>
       <div className="flex w-full gap-5">
         <button
