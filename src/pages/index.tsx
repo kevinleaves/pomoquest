@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { Dialog } from "@mui/material";
 import { SignIn, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
@@ -8,30 +10,27 @@ import Timer from "~/features/timer/components/Timer";
 import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
 import CoinView from "~/features/coins/components/CoinView";
 import Navbar from "~/features/navbar/components/Navbar";
-import { useState } from "react";
 import useAlarmSound from "~/features/timer/hooks/useAlarmSound";
 import useBGColor from "~/features/timer/hooks/useBGColor";
+import Settings from "~/features/settings/components/Settings";
+import useToggle from "~/features/timer/hooks/useToogle";
 
 const Home: NextPage = () => {
-  const [input, setInput] = useState("");
+  const [isUserSettingsModalOpen, { toggle: toggleUserSettings, off }] =
+    useToggle();
+  const { bgcolor } = useBGColor();
+  const { alarmSound } = useAlarmSound();
 
-  const { bgcolor, refetchBGColor } = useBGColor();
-  const { alarmSound, isLoading, error } = useAlarmSound();
+  const ctx = api.useContext();
 
   const { mutate } = api.settings.updateBgColor.useMutation({
-    onSuccess: () => refetchBGColor(),
+    onSuccess: () => {
+      void ctx.settings.getCurrentBgColor.invalidate();
+    },
   });
 
-  if (isLoading) return <h1>Loading...</h1>;
-  if (error) return <h1>{"An error has occured: " + error.message}</h1>;
-
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
-  };
-
-  const updateBgColor = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutate({ hexValue: input });
+  const updateBgColor = (hexValue: string) => {
+    mutate({ hexValue });
   };
 
   return (
@@ -42,10 +41,13 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        className="flex min-h-screen flex-col items-center gap-5"
+        className="flex min-h-screen flex-col items-center gap-5 bg-[#343a40]"
         style={{ backgroundColor: bgcolor }}
       >
-        <Navbar />
+        <Navbar
+          isUserSettingsModalOpen={isUserSettingsModalOpen}
+          toggleUserSettings={toggleUserSettings}
+        />
         <SignedOut>
           <Timer seconds={minutesToSeconds(25)} alarmSound={alarmSound} />
           <Timer seconds={minutesToSeconds(5)} alarmSound={alarmSound} />
@@ -53,11 +55,15 @@ const Home: NextPage = () => {
         <SignedIn>
           <Timer seconds={minutesToSeconds(25)} alarmSound={alarmSound} />
           <Timer seconds={minutesToSeconds(0.05)} alarmSound={alarmSound} />
-          {/* <CoinView /> */}
-          <form onSubmit={updateBgColor}>
-            <input value={input} onChange={handleInput}></input>
-            <button type="submit">input a hexvalue</button>
-          </form>
+
+          <Dialog open={isUserSettingsModalOpen}>
+            <Settings
+              isUserSettingsModalOpen={isUserSettingsModalOpen}
+              off={off}
+              updateBgColor={updateBgColor}
+            />
+          </Dialog>
+
           <Link
             className="border-solid-grey rounded-lg border-2 p-3 hover:bg-purple-400"
             href="/notes"
