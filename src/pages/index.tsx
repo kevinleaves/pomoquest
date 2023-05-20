@@ -53,7 +53,7 @@ const Home: NextPage = () => {
         <SignedIn>
           <Timer seconds={minutesToSeconds(25)} alarmSound={alarmSound} />
           <Timer seconds={minutesToSeconds(0.05)} alarmSound={alarmSound} />
-          <CoinView />
+          {/* <CoinView /> */}
           <form onSubmit={updateBgColor}>
             <input value={input} onChange={handleInput}></input>
             <button type="submit">input a hexvalue</button>
