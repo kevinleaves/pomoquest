@@ -9,21 +9,13 @@ import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
 import CoinView from "~/features/coins/components/CoinView";
 import Navbar from "~/features/navbar/components/Navbar";
 import { useState } from "react";
-
-function useAlarmSound() {
-  const { data, isLoading, error } =
-    api.settings.getCurrentAlarmSound.useQuery();
-
-  // handle undefined w/ nullish coalescing operator
-  const alarmSound = data ?? "";
-
-  return { alarmSound: alarmSound, isLoading, error };
-}
+import useAlarmSound from "~/features/timer/hooks/useAlarmSound";
 
 const Home: NextPage = () => {
   const { user } = useUser();
 
   const [input, setInput] = useState("");
+
   const { data: bgcolor, refetch: refetchBGColor } =
     api.settings.getCurrentBgColor.useQuery();
 
