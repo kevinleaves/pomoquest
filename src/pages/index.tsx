@@ -56,7 +56,7 @@ const Home: NextPage = () => {
           <Timer seconds={minutesToSeconds(25)} alarmSound={alarmSound} />
           <Timer seconds={minutesToSeconds(0.05)} alarmSound={alarmSound} />
 
-          <Dialog open={isUserSettingsModalOpen}>
+          <Dialog open={isUserSettingsModalOpen} onClose={off}>
             <Settings
               isUserSettingsModalOpen={isUserSettingsModalOpen}
               off={off}

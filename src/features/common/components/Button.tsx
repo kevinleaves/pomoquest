@@ -2,10 +2,15 @@ import React from "react";
 import { api } from "~/utils/api";
 
 interface Props {
-  onClick: () => void;
-  text: string;
+  onClick?: () => void;
+  text?: string;
 }
-export default function Button({ onClick, text }: Props) {
+export default function Button({
+  onClick = () => {
+    console.log("click me");
+  },
+  text = "default",
+}: Props) {
   return (
     <>
       <button
