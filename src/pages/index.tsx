@@ -10,15 +10,12 @@ import CoinView from "~/features/coins/components/CoinView";
 import Navbar from "~/features/navbar/components/Navbar";
 import { useState } from "react";
 import useAlarmSound from "~/features/timer/hooks/useAlarmSound";
+import useBGColor from "~/features/timer/hooks/useBGColor";
 
 const Home: NextPage = () => {
-  const { user } = useUser();
-
   const [input, setInput] = useState("");
 
-  const { data: bgcolor, refetch: refetchBGColor } =
-    api.settings.getCurrentBgColor.useQuery();
-
+  const { bgcolor, refetchBGColor } = useBGColor();
   const { alarmSound, isLoading, error } = useAlarmSound();
 
   const { mutate } = api.settings.updateBgColor.useMutation({
