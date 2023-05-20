@@ -10,17 +10,31 @@ import CoinView from "~/features/coins/components/CoinView";
 import Navbar from "~/features/navbar/components/Navbar";
 import { useState } from "react";
 
+function useAlarmSound() {
+  const { data, isLoading, error } =
+    api.settings.getCurrentAlarmSound.useQuery();
+
+  // handle undefined w/ nullish coalescing operator
+  const alarmSound = data ?? "";
+
+  return { alarmSound: alarmSound, isLoading, error };
+}
+
 const Home: NextPage = () => {
   const { user } = useUser();
 
+  const [input, setInput] = useState("");
   const { data: bgcolor, refetch: refetchBGColor } =
     api.settings.getCurrentBgColor.useQuery();
+
+  const { alarmSound, isLoading, error } = useAlarmSound();
 
   const { mutate } = api.settings.updateBgColor.useMutation({
     onSuccess: () => refetchBGColor(),
   });
 
-  const [input, setInput] = useState("");
+  if (isLoading) return <h1>Loading...</h1>;
+  if (error) return <h1>{"An error has occured: " + error.message}</h1>;
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -44,12 +58,12 @@ const Home: NextPage = () => {
       >
         <Navbar />
         <SignedOut>
-          <Timer seconds={minutesToSeconds(25)} />
-          <Timer seconds={minutesToSeconds(5)} />
+          <Timer seconds={minutesToSeconds(25)} alarmSound={alarmSound} />
+          <Timer seconds={minutesToSeconds(5)} alarmSound={alarmSound} />
         </SignedOut>
         <SignedIn>
-          <Timer seconds={minutesToSeconds(25)} />
-          <Timer seconds={minutesToSeconds(5)} />
+          <Timer seconds={minutesToSeconds(25)} alarmSound={alarmSound} />
+          <Timer seconds={minutesToSeconds(0.05)} alarmSound={alarmSound} />
           <CoinView />
           <form onSubmit={updateBgColor}>
             <input value={input} onChange={handleInput}></input>

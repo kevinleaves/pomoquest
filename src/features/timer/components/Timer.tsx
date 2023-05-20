@@ -6,13 +6,16 @@ import { api } from "~/utils/api";
 
 interface Props {
   seconds: number;
+  alarmSound: string;
 }
 
-export default function Timer({ seconds }: Props) {
+export default function Timer({ seconds, alarmSound }: Props) {
   const [time, setTime] = useState(seconds);
   const [status, { off: stopTimer, toggle: toggleTimer }] = useToggle();
+
   const [playClick] = useSound("/ui-click.wav", { playbackRate: 2 });
-  const [playAlarm] = useSound("/alienalarm.wav", { playbackRate: 2 });
+
+  const [playAlarm] = useSound(alarmSound, { playbackRate: 2 });
 
   const formmatedTime = formatTime(time);
   const { mutate: addCoins } = api.coins.addCoins.useMutation({
@@ -62,6 +65,7 @@ export default function Timer({ seconds }: Props) {
         >
           RESET
         </button>
+        <div>{alarmSound}</div>
       </div>
     </div>
   );
