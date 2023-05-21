@@ -1,16 +1,21 @@
 import React from "react";
 import { SignIn, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { useUser } from "@clerk/nextjs";
 
 interface Props {
   isUserSettingsModalOpen: boolean;
   toggleUserSettings: React.Dispatch<React.SetStateAction<boolean>>;
+  isShopOpen: boolean;
+  toggleShop: React.Dispatch<React.SetStateAction<boolean>>;
+  coinAmount: number | undefined;
 }
 
 export default function Navbar({
   isUserSettingsModalOpen,
   toggleUserSettings,
+  coinAmount,
+  isShopOpen,
+  toggleShop,
 }: Props) {
   return (
     <div className="flex items-center justify-between border-b border-slate-300 p-2 md:h-16 md:w-1/2">
@@ -18,16 +23,23 @@ export default function Navbar({
         pomoquest
       </h1>
       <div className="flex gap-2 md:gap-5">
-        <button
-          className="font-light text-[#F1F6F9]"
-          onClick={() => toggleUserSettings(!isUserSettingsModalOpen)}
-        >
-          settings
-        </button>
-        <button className="font-light text-[#F1F6F9]">coins</button>
+        <SignedIn>
+          <button
+            className="font-light text-[#F1F6F9]"
+            onClick={() => toggleUserSettings(!isUserSettingsModalOpen)}
+          >
+            settings
+          </button>
+          <button
+            className="font-light text-[#F1F6F9]"
+            onClick={() => toggleShop(!isShopOpen)}
+          >
+            {coinAmount?.toLocaleString()}
+          </button>
+        </SignedIn>
         <SignedOut>
           <Link
-            className="border-solid-grey rounded-lg border-2 p-3 hover:bg-purple-400"
+            className="rounded-lg p-3 text-white transition hover:bg-purple-400"
             href={"/login"}
           >
             login

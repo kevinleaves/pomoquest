@@ -13,10 +13,15 @@ import Navbar from "~/features/navbar/components/Navbar";
 import Settings from "~/features/settings/components/Settings";
 import useToggle from "~/features/timer/hooks/useToogle";
 import useUserSettings from "~/features/settings/hooks/useUserSettings";
+import Shop from "~/features/shop/components/Shop";
 
 const Home: NextPage = () => {
-  const [isUserSettingsModalOpen, { toggle: toggleUserSettings, off }] =
-    useToggle();
+  const [
+    isUserSettingsModalOpen,
+    { toggle: toggleUserSettings, off: exitSettings },
+  ] = useToggle();
+
+  const [isShopOpen, { toggle: toggleShop, off: exitShop }] = useToggle();
 
   const {
     data: {
@@ -46,6 +51,8 @@ const Home: NextPage = () => {
           isUserSettingsModalOpen={isUserSettingsModalOpen}
           toggleUserSettings={toggleUserSettings}
           coinAmount={coinAmount}
+          isShopOpen={isShopOpen}
+          toggleShop={toggleShop}
         />
         <SignedOut>
           <Timer seconds={minutesToSeconds(25)} alarmSound={alarmSound} />
@@ -65,12 +72,15 @@ const Home: NextPage = () => {
             alarmSound={alarmSound}
           />
 
-          <Dialog open={isUserSettingsModalOpen} onClose={off}>
+          <Dialog open={isUserSettingsModalOpen} onClose={exitSettings}>
             <Settings
               isUserSettingsModalOpen={isUserSettingsModalOpen}
-              off={off}
+              off={exitSettings}
               updateBgColor={updateBgColor}
             />
+          </Dialog>
+          <Dialog open={isShopOpen} onClose={exitShop}>
+            <Shop isShopOpen={isShopOpen} off={exitShop} />
           </Dialog>
 
           <Link
