@@ -17,6 +17,12 @@ export default function useUserSettings() {
 
   let { data: bgColor } = api.settings.getCurrentBgColor.useQuery();
 
+  let { data: shortBreakDuration } =
+    api.settings.getShortBreakDuration.useQuery();
+
+  let { data: longBreakDuration } =
+    api.settings.getLongBreakDuration.useQuery();
+
   // mutations
   const { mutate: mutateBgColor } = api.settings.updateBgColor.useMutation({
     onSuccess: () => {
@@ -32,12 +38,16 @@ export default function useUserSettings() {
   bgColor = bgColor ?? "";
   alarmSound = alarmSound ?? "";
   pomoDuration = pomoDuration ?? 25;
+  shortBreakDuration = shortBreakDuration ?? 5;
+  longBreakDuration = longBreakDuration ?? 15;
 
   return {
     data: {
       bgColor,
       alarmSound,
       pomoDuration,
+      shortBreakDuration,
+      longBreakDuration,
     },
     mutations: {
       updateBgColor,

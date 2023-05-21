@@ -19,7 +19,13 @@ const Home: NextPage = () => {
     useToggle();
 
   const {
-    data: { alarmSound, pomoDuration, bgColor },
+    data: {
+      alarmSound,
+      pomoDuration,
+      bgColor,
+      shortBreakDuration,
+      longBreakDuration,
+    },
     mutations: { updateBgColor },
   } = useUserSettings();
 
@@ -50,7 +56,14 @@ const Home: NextPage = () => {
             seconds={minutesToSeconds(pomoDuration)}
             alarmSound={alarmSound}
           />
-          <Timer seconds={minutesToSeconds(0.05)} alarmSound={alarmSound} />
+          <Timer
+            seconds={minutesToSeconds(shortBreakDuration)}
+            alarmSound={alarmSound}
+          />
+          <Timer
+            seconds={minutesToSeconds(longBreakDuration)}
+            alarmSound={alarmSound}
+          />
 
           <Dialog open={isUserSettingsModalOpen} onClose={off}>
             <Settings
