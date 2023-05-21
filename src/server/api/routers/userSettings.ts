@@ -52,4 +52,23 @@ export const settingsRouter = createTRPCRouter({
     // fallback
     return "/basicalarm.wav";
   }),
+  getPomoDuration: privateProcedure.query(async ({ ctx }) => {
+    const userID = ctx.currentUser;
+
+    const res = await ctx.prisma.userSetting.findMany({
+      where: {
+        userId: userID,
+        key: "pomo-duration",
+      },
+    });
+
+    if (res.length > 0) {
+      const pomoDuration = res[0]?.value;
+
+      return Number(pomoDuration);
+    }
+
+    // fallback
+    return 25;
+  }),
 });
