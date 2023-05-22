@@ -64,7 +64,6 @@ export const settingsRouter = createTRPCRouter({
 
     if (res.length > 0) {
       const pomoDuration = res[0]?.value;
-
       return Number(pomoDuration);
     }
 
@@ -83,7 +82,6 @@ export const settingsRouter = createTRPCRouter({
 
     if (res.length > 0) {
       const shortBreakDuration = res[0]?.value;
-
       return Number(shortBreakDuration);
     }
 
@@ -102,7 +100,6 @@ export const settingsRouter = createTRPCRouter({
 
     if (res.length > 0) {
       const longBreakDuration = res[0]?.value;
-
       return Number(longBreakDuration);
     }
 
