@@ -1,6 +1,7 @@
 import React from "react";
 import { SignIn, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import Button from "@mui/material/Button";
 
 interface Props {
   isUserSettingsModalOpen: boolean;
@@ -24,18 +25,22 @@ export default function Navbar({
       </h1>
       <div className="flex gap-2 md:gap-5">
         <SignedIn>
-          <button
-            className="font-light text-[#F1F6F9]"
+          <Button
+            variant="contained"
             onClick={() => toggleUserSettings(!isUserSettingsModalOpen)}
+            color="secondary"
+            size="small"
           >
             settings
-          </button>
-          <button
-            className="font-light text-[#F1F6F9]"
+          </Button>
+          <Button
+            variant="contained"
             onClick={() => toggleShop(!isShopOpen)}
+            color="primary"
+            size="small"
           >
             {coinAmount?.toLocaleString()}
-          </button>
+          </Button>
         </SignedIn>
         <SignedOut>
           <Link
