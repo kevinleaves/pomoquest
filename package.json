@@ -1,5 +1,5 @@
 {
-  "name": "t3cruddymusicnotes",
+  "name": "pomoquest",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -24,6 +24,7 @@
     "next": "^13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
     "superjson": "1.12.2",
     "svix": "^0.84.1",
     "use-sound": "^4.0.1",

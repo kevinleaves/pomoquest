@@ -39,7 +39,7 @@ export default function Navbar({
             color="primary"
             size="small"
           >
-            {coinAmount?.toLocaleString()}
+            Shop: {coinAmount?.toLocaleString()} coins
           </Button>
         </SignedIn>
         <SignedOut>
@@ -51,9 +51,7 @@ export default function Navbar({
           </Link>
         </SignedOut>
         <SignedIn>
-          <UserButton
-            afterSignOutUrl={"https://t3cruddymusicnotes.vercel.app/"}
-          />
+          <UserButton afterSignOutUrl={"https://pomoquest.vercel.app/"} />
         </SignedIn>
       </div>
     </div>
