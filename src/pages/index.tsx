@@ -1,57 +1,88 @@
+import { useState } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { Dialog } from "@mui/material";
 import { SignIn, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import Timer from "~/features/timer/components/Timer";
 import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
 import CoinView from "~/features/coins/components/CoinView";
-import { useState } from "react";
+import Navbar from "~/features/navbar/components/Navbar";
+import Settings from "~/features/settings/components/Settings";
+import useToggle from "~/features/timer/hooks/useToogle";
+import useUserSettings from "~/features/settings/hooks/useUserSettings";
+import Shop from "~/features/shop/components/Shop";
 
 const Home: NextPage = () => {
-  const { user } = useUser();
+  const [
+    isUserSettingsModalOpen,
+    { toggle: toggleUserSettings, off: exitSettings },
+  ] = useToggle();
 
-  const { data: bgcolor } = api.settings.getCurrentBgColor.useQuery();
-  const { mutate } = api.settings.updateBgColor.useMutation();
+  const [isShopOpen, { toggle: toggleShop, off: exitShop }] = useToggle();
 
-  const [input, setInput] = useState("");
+  const {
+    data: {
+      alarmSound,
+      pomoDuration,
+      bgColor,
+      shortBreakDuration,
+      longBreakDuration,
+    },
+    mutations: { updateBgColor },
+  } = useUserSettings();
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
-  };
-
-  const updateBgColor = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutate({ hexValue: input });
-  };
+  const { data: coinAmount } = api.coins.getCoins.useQuery();
 
   return (
     <>
       <Head>
-        <title>aud.io</title>
+        <title>pomoquest.io</title>
         <meta name="description" content="notes but audio" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        className="flex min-h-screen flex-col items-center justify-center gap-5"
-        style={{ backgroundColor: bgcolor }}
+        className="flex min-h-screen flex-col items-center gap-5 bg-[#343a40]"
+        style={{ backgroundColor: bgColor }}
       >
+        <Navbar
+          isUserSettingsModalOpen={isUserSettingsModalOpen}
+          toggleUserSettings={toggleUserSettings}
+          coinAmount={coinAmount}
+          isShopOpen={isShopOpen}
+          toggleShop={toggleShop}
+        />
         <SignedOut>
-          <SignIn />
-          <Timer seconds={minutesToSeconds(25)} />
+          <Timer seconds={minutesToSeconds(25)} alarmSound={alarmSound} />
+          <Timer seconds={minutesToSeconds(5)} alarmSound={alarmSound} />
         </SignedOut>
-
         <SignedIn>
-          <UserButton />
-          {user?.username} is signed in!
-          <Timer seconds={minutesToSeconds(25)} />
-          <Timer seconds={5} />
-          <CoinView />
-          <form onSubmit={updateBgColor}>
-            <input value={input} onChange={handleInput}></input>
-            <button type="submit">input a hexvalue</button>
-          </form>
+          <Timer
+            seconds={minutesToSeconds(pomoDuration)}
+            alarmSound={alarmSound}
+          />
+          <Timer
+            seconds={minutesToSeconds(shortBreakDuration)}
+            alarmSound={alarmSound}
+          />
+          <Timer
+            seconds={minutesToSeconds(longBreakDuration)}
+            alarmSound={alarmSound}
+          />
+
+          <Dialog open={isUserSettingsModalOpen} onClose={exitSettings}>
+            <Settings
+              isUserSettingsModalOpen={isUserSettingsModalOpen}
+              off={exitSettings}
+              updateBgColor={updateBgColor}
+            />
+          </Dialog>
+          <Dialog open={isShopOpen} onClose={exitShop}>
+            <Shop isShopOpen={isShopOpen} off={exitShop} />
+          </Dialog>
+
           <Link
             className="border-solid-grey rounded-lg border-2 p-3 hover:bg-purple-400"
             href="/notes"
