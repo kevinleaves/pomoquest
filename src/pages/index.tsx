@@ -32,9 +32,24 @@ const Home: NextPage = () => {
       longBreakDuration,
     },
     mutations: { updateBgColor },
+    loading: {
+      isAlarmSoundLoading,
+      isLBreakLoading,
+      isPomoDurationLoading,
+      isSBreakLoading,
+    },
   } = useUserSettings();
 
   const { data: coinAmount } = api.coins.getCoins.useQuery();
+
+  if (
+    isAlarmSoundLoading ||
+    isLBreakLoading ||
+    isPomoDurationLoading ||
+    isSBreakLoading
+  ) {
+    return <h1>loading...</h1>;
+  }
 
   return (
     <>

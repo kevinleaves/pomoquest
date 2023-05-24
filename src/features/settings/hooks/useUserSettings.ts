@@ -11,16 +11,18 @@ export default function useUserSettings() {
   const ctx = api.useContext();
 
   // queries
-  let { data: alarmSound } = api.settings.getCurrentAlarmSound.useQuery();
+  let { data: alarmSound, isLoading: isAlarmSoundLoading } =
+    api.settings.getCurrentAlarmSound.useQuery();
 
-  let { data: pomoDuration } = api.settings.getPomoDuration.useQuery();
+  let { data: pomoDuration, isLoading: isPomoDurationLoading } =
+    api.settings.getPomoDuration.useQuery();
 
   let { data: bgColor } = api.settings.getCurrentBgColor.useQuery();
 
-  let { data: shortBreakDuration } =
+  let { data: shortBreakDuration, isLoading: isSBreakLoading } =
     api.settings.getShortBreakDuration.useQuery();
 
-  let { data: longBreakDuration } =
+  let { data: longBreakDuration, isLoading: isLBreakLoading } =
     api.settings.getLongBreakDuration.useQuery();
 
   // mutations
@@ -33,6 +35,12 @@ export default function useUserSettings() {
   const updateBgColor = (hexValue: string) => {
     mutateBgColor({ hexValue });
   };
+
+  // if any query is loading,
+  isAlarmSoundLoading = isAlarmSoundLoading;
+  isPomoDurationLoading = isPomoDurationLoading;
+  isSBreakLoading = isSBreakLoading;
+  isLBreakLoading = isLBreakLoading;
 
   // handle undefined w/ nullish coalescing operator
   bgColor = bgColor ?? "";
@@ -51,6 +59,12 @@ export default function useUserSettings() {
     },
     mutations: {
       updateBgColor,
+    },
+    loading: {
+      isAlarmSoundLoading,
+      isPomoDurationLoading,
+      isSBreakLoading,
+      isLBreakLoading,
     },
   };
 }
