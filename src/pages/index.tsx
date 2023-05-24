@@ -78,7 +78,7 @@ const Home: NextPage = () => {
               isUserSettingsModalOpen={isUserSettingsModalOpen}
               off={exitSettings}
               updateBgColor={updateBgColor}
-              pomoDuration={pomoDuration}
+              // pomoDuration={pomoDuration}
             />
           </Dialog>
           <Dialog open={isShopOpen} onClose={exitShop}>
