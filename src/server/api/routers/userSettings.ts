@@ -50,7 +50,7 @@ export const settingsRouter = createTRPCRouter({
     }
 
     // fallback
-    return "/basicalarm.wav";
+    // return "/basicalarm.wav";
   }),
   getPomoDuration: privateProcedure.query(async ({ ctx }) => {
     const userID = ctx.currentUser;
@@ -68,7 +68,7 @@ export const settingsRouter = createTRPCRouter({
     }
 
     // fallback
-    return 25;
+    // return 25;
   }),
   getShortBreakDuration: privateProcedure.query(async ({ ctx }) => {
     const userID = ctx.currentUser;
@@ -86,7 +86,7 @@ export const settingsRouter = createTRPCRouter({
     }
 
     // fallback
-    return 5;
+    // return 5;
   }),
   getLongBreakDuration: privateProcedure.query(async ({ ctx }) => {
     const userID = ctx.currentUser;
@@ -104,6 +104,6 @@ export const settingsRouter = createTRPCRouter({
     }
 
     // fallback
-    return 15;
+    // return 15;
   }),
 });

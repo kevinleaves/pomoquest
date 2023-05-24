@@ -71,12 +71,14 @@ const Home: NextPage = () => {
             seconds={minutesToSeconds(longBreakDuration)}
             alarmSound={alarmSound}
           />
+          <Timer seconds={minutesToSeconds(0.05)} alarmSound={alarmSound} />
 
           <Dialog open={isUserSettingsModalOpen} onClose={exitSettings}>
             <Settings
               isUserSettingsModalOpen={isUserSettingsModalOpen}
               off={exitSettings}
               updateBgColor={updateBgColor}
+              pomoDuration={pomoDuration}
             />
           </Dialog>
           <Dialog open={isShopOpen} onClose={exitShop}>
