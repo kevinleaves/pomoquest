@@ -11,19 +11,20 @@ export default function useUserSettings() {
   const ctx = api.useContext();
 
   // queries
-  let { data: alarmSound } = api.settings.getCurrentAlarmSound.useQuery();
+  const { data: alarmSound, isLoading: isAlarmSoundLoading } =
+    api.settings.getCurrentAlarmSound.useQuery();
 
-  let { data: pomoDuration } = api.settings.getPomoDuration.useQuery();
+  const { data: pomoDuration, isLoading: isPomoDurationLoading } =
+    api.settings.getPomoDuration.useQuery();
 
-  let { data: bgColor } = api.settings.getCurrentBgColor.useQuery();
+  const { data: bgColor } = api.settings.getCurrentBgColor.useQuery();
 
-  let { data: shortBreakDuration } =
+  const { data: shortBreakDuration, isLoading: isSBreakLoading } =
     api.settings.getShortBreakDuration.useQuery();
 
-  let { data: longBreakDuration } =
+  const { data: longBreakDuration, isLoading: isLBreakLoading } =
     api.settings.getLongBreakDuration.useQuery();
 
-  // mutations
   const { mutate: mutateBgColor } = api.settings.updateBgColor.useMutation({
     onSuccess: () => {
       void ctx.settings.getCurrentBgColor.invalidate();
@@ -34,23 +35,22 @@ export default function useUserSettings() {
     mutateBgColor({ hexValue });
   };
 
-  // handle undefined w/ nullish coalescing operator
-  bgColor = bgColor ?? "";
-  alarmSound = alarmSound ?? "";
-  pomoDuration = pomoDuration ?? 25;
-  shortBreakDuration = shortBreakDuration ?? 5;
-  longBreakDuration = longBreakDuration ?? 15;
-
   return {
     data: {
-      bgColor,
-      alarmSound,
-      pomoDuration,
-      shortBreakDuration,
-      longBreakDuration,
+      bgColor: bgColor ?? "",
+      alarmSound: alarmSound ?? "",
+      pomoDuration: pomoDuration ?? 25,
+      shortBreakDuration: shortBreakDuration ?? 5,
+      longBreakDuration: longBreakDuration ?? 15,
     },
     mutations: {
       updateBgColor,
+    },
+    loading: {
+      isAlarmSoundLoading,
+      isPomoDurationLoading,
+      isSBreakLoading,
+      isLBreakLoading,
     },
   };
 }

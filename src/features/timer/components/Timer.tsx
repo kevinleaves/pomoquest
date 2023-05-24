@@ -17,9 +17,11 @@ export default function Timer({ seconds, alarmSound }: Props) {
 
   const [playAlarm] = useSound(alarmSound, { playbackRate: 2 });
 
+  const ctx = api.useContext();
+
   const formmatedTime = formatTime(time);
   const { mutate: addCoins } = api.coins.addCoins.useMutation({
-    // onSuccess: () => refetchCoins(),
+    onSuccess: void ctx.coins.getCoins.invalidate(),
   });
 
   const resetTimer = () => {
