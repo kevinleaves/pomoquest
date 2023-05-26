@@ -1,18 +1,10 @@
-import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import { Dialog } from "@mui/material";
-import { SignIn, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { useAuth } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import { useState } from "react";
-import Timer from "~/features/timer/components/Timer";
-import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
 import Navbar from "~/features/navbar/components/Navbar";
-import Settings from "~/features/settings/components/Settings";
 import useToggle from "~/features/timer/hooks/useToogle";
-import useUserSettings from "~/features/settings/hooks/useUserSettings";
-import Shop from "~/features/shop/components/Shop";
 import LoggedIn from "~/features/home/components/LoggedIn";
 import LoggedOut from "~/features/home/components/LoggedOut";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { SignIn, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import Button from "@mui/material/Button";
 

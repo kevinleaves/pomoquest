@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { Dialog } from "@mui/material";
-import { api } from "~/utils/api";
 import Timer from "~/features/timer/components/Timer";
 import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
 import Settings from "~/features/settings/components/Settings";
-import useToggle from "~/features/timer/hooks/useToogle";
 import useUserSettings from "~/features/settings/hooks/useUserSettings";
 import Shop from "~/features/shop/components/Shop";
 
