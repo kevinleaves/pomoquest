@@ -19,13 +19,21 @@ export const HomePage = () => {
 
   const [isShopOpen, { toggle: toggleShop, off: exitShop }] = useToggle();
 
-  const { data: coinAmount } = api.coins.getCoins.useQuery(undefined, {
-    enabled: !!isSignedIn,
-  });
-
   const handleBgColor = (value: string) => {
     setColor(value);
   };
+
+  const {
+    data: coinAmount,
+    isLoading,
+    fetchStatus,
+  } = api.coins.getCoins.useQuery(undefined, { enabled: !!isSignedIn });
+
+  // guard clause
+  if (isLoading && fetchStatus !== "idle") {
+    // query does not run when user is logged out but still guards when logged in
+    return <div>the getCoins query is enabled and actually loading </div>;
+  }
 
   return (
     <>

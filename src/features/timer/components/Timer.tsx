@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import useSound from "use-sound";
 import { formatTime } from "../utils/timerUtils";
 import useToggle from "../hooks/useToogle";
@@ -20,9 +20,14 @@ export default function Timer({ seconds, alarmSound }: Props) {
   const ctx = api.useContext();
 
   const formmatedTime = formatTime(time);
-  const { mutate: addCoins } = api.coins.addCoins.useMutation({
-    onSuccess: void ctx.coins.getCoins.invalidate(),
+
+  const addCoinsMutation = api.coins.addCoins.useMutation({
+    onSuccess: useCallback(() => {
+      void ctx.coins.getCoins.invalidate();
+    }, [ctx.coins.getCoins]),
   });
+
+  const { mutate: addCoins } = addCoinsMutation;
 
   const resetTimer = () => {
     setTime(seconds);
