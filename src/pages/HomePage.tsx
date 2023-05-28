@@ -32,22 +32,12 @@ export const HomePage: NextPage = () => {
       longBreakDuration,
     },
     mutations: { updateBgColor },
-    loading: {
-      isAlarmSoundLoading,
-      isLBreakLoading,
-      isPomoDurationLoading,
-      isSBreakLoading,
-    },
+    loading: { isUserSettingsLoading },
   } = useUserSettings();
 
   const { data: coinAmount } = api.coins.getCoins.useQuery();
 
-  if (
-    isAlarmSoundLoading ||
-    isLBreakLoading ||
-    isPomoDurationLoading ||
-    isSBreakLoading
-  ) {
+  if (isUserSettingsLoading) {
     return <h1>loading...</h1>;
   }
 
