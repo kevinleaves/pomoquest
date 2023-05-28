@@ -1,4 +1,5 @@
 import { api } from "~/utils/api";
+import { useAuth } from "@clerk/nextjs";
 // house all settings API calls within this hook.
 // returns object w/ query data, and mutation functions that contains results of many different settings calls
 
@@ -9,21 +10,29 @@ import { api } from "~/utils/api";
  */
 export default function useUserSettings() {
   const ctx = api.useContext();
-
+  const { isSignedIn } = useAuth();
   // queries
-  const { data: alarmSound, isLoading: isAlarmSoundLoading } =
-    api.settings.getCurrentAlarmSound.useQuery();
+  const { data: alarmSound, isInitialLoading: isAlarmSoundLoading } =
+    api.settings.getCurrentAlarmSound.useQuery(undefined, {
+      enabled: !!isSignedIn,
+    });
 
-  const { data: pomoDuration, isLoading: isPomoDurationLoading } =
-    api.settings.getPomoDuration.useQuery();
+  const { data: pomoDuration, isInitialLoading: isPomoDurationLoading } =
+    api.settings.getPomoDuration.useQuery(undefined, { enabled: !!isSignedIn });
 
-  const { data: bgColor } = api.settings.getCurrentBgColor.useQuery();
+  const { data: bgColor } = api.settings.getCurrentBgColor.useQuery(undefined, {
+    enabled: !!isSignedIn,
+  });
 
-  const { data: shortBreakDuration, isLoading: isSBreakLoading } =
-    api.settings.getShortBreakDuration.useQuery();
+  const { data: shortBreakDuration, isInitialLoading: isSBreakLoading } =
+    api.settings.getShortBreakDuration.useQuery(undefined, {
+      enabled: !!isSignedIn,
+    });
 
-  const { data: longBreakDuration, isLoading: isLBreakLoading } =
-    api.settings.getLongBreakDuration.useQuery();
+  const { data: longBreakDuration, isInitialLoading: isLBreakLoading } =
+    api.settings.getLongBreakDuration.useQuery(undefined, {
+      enabled: !!isSignedIn,
+    });
 
   const { mutate: mutateBgColor } = api.settings.updateBgColor.useMutation({
     onSuccess: () => {
