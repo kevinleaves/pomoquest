@@ -106,4 +106,36 @@ export const settingsRouter = createTRPCRouter({
     // fallback
     // return 15;
   }),
+  getAllUserSettings: privateProcedure.query(async ({ ctx }) => {
+    const userID = ctx.currentUser;
+    const res = await ctx.prisma.userSetting.findMany({
+      where: {
+        userId: userID,
+        OR: [
+          {
+            key: "long-break-duration",
+          },
+          {
+            key: "bg-color",
+          },
+          {
+            key: "short-break-duration",
+          },
+          {
+            key: "pomo-duration",
+          },
+          {
+            key: "alarm-sound",
+          },
+        ],
+      },
+    });
+
+    const userSettings = res.reduce((result, setting) => {
+      result[setting.key] = setting.value;
+      return result;
+    }, {} as { [key: string]: string });
+
+    return userSettings;
+  }),
 });
