@@ -1,6 +1,5 @@
 import React from "react";
-import { SignIn, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import Link from "next/link";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Button from "@mui/material/Button";
 
 interface Props {
@@ -43,12 +42,14 @@ export default function Navbar({
           </Button>
         </SignedIn>
         <SignedOut>
-          <Link
-            className="rounded-lg p-3 text-white transition hover:bg-purple-400"
-            href={"/login"}
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            href="/login"
           >
             login
-          </Link>
+          </Button>
         </SignedOut>
         <SignedIn>
           <UserButton afterSignOutUrl={"https://pomoquest.vercel.app/"} />

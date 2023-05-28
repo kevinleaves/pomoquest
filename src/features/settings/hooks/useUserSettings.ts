@@ -18,11 +18,12 @@ export default function useUserSettings() {
       enabled: !!isSignedIn,
     });
 
-  const { mutate: mutateBgColor } = api.settings.updateBgColor.useMutation({
-    onSuccess: () => {
-      void ctx.settings.getAllUserSettings.invalidate();
-    },
-  });
+  const { mutate: mutateBgColor, isLoading: isBgColorMutating } =
+    api.settings.updateBgColor.useMutation({
+      onSuccess: () => {
+        void ctx.settings.getAllUserSettings.invalidate();
+      },
+    });
 
   const updateBgColor = (hexValue: string) => {
     mutateBgColor({ hexValue });
@@ -41,6 +42,7 @@ export default function useUserSettings() {
     },
     loading: {
       isUserSettingsLoading,
+      isBgColorMutating,
     },
   };
 }
