@@ -1,19 +1,17 @@
-import { useState } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { Dialog } from "@mui/material";
-import { SignIn, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { useUser } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import Timer from "~/features/timer/components/Timer";
 import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
-import CoinView from "~/features/coins/components/CoinView";
 import Navbar from "~/features/navbar/components/Navbar";
 import Settings from "~/features/settings/components/Settings";
 import useToggle from "~/features/timer/hooks/useToogle";
-import useUserSettings from "~/features/settings/hooks/useUserSettings";
 import Shop from "~/features/shop/components/Shop";
+import useUserSettings from "~/features/settings/hooks/useUserSettings";
+import useShop from "~/features/shop/hooks/useShop";
 
 export const HomePage: NextPage = () => {
   const [
@@ -35,9 +33,12 @@ export const HomePage: NextPage = () => {
     loading: { isUserSettingsLoading },
   } = useUserSettings();
 
-  const { data: coinAmount } = api.coins.getCoins.useQuery();
+  const {
+    data: { coinAmount },
+    loading: { isCoinsLoading },
+  } = useShop();
 
-  if (isUserSettingsLoading) {
+  if (isUserSettingsLoading || isCoinsLoading) {
     return <h1>loading...</h1>;
   }
 
