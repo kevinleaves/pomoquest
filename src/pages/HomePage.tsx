@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
 import { Dialog, Button } from "@mui/material";
@@ -12,6 +13,8 @@ import useUserSettings from "~/features/settings/hooks/useUserSettings";
 import useShop from "~/features/shop/hooks/useShop";
 
 export const HomePage: NextPage = () => {
+  const [timerView, setTimerView] = useState("pomodoro");
+
   const [
     isUserSettingsModalOpen,
     { toggle: toggleUserSettings, off: exitSettings },
@@ -63,19 +66,36 @@ export const HomePage: NextPage = () => {
           <Timer seconds={minutesToSeconds(5)} alarmSound={alarmSound} />
         </SignedOut>
         <SignedIn>
-          <Timer
-            seconds={minutesToSeconds(pomoDuration)}
-            alarmSound={alarmSound}
-          />
-          <Timer
-            seconds={minutesToSeconds(shortBreakDuration)}
-            alarmSound={alarmSound}
-          />
-          <Timer
-            seconds={minutesToSeconds(longBreakDuration)}
-            alarmSound={alarmSound}
-          />
-          <Timer seconds={minutesToSeconds(0.05)} alarmSound={alarmSound} />
+          <div className="flex gap-2">
+            {["pomodoro", "shortBreak", "longBreak"].map((status, index) => (
+              <Button
+                key={index}
+                onClick={() => setTimerView(status)}
+                variant="contained"
+                color="success"
+              >
+                {status}
+              </Button>
+            ))}
+          </div>
+          {timerView === "pomodoro" ? (
+            <Timer
+              seconds={minutesToSeconds(pomoDuration)}
+              alarmSound={"/basicalarm.wav"}
+            />
+          ) : null}
+          {timerView === "shortBreak" ? (
+            <Timer
+              seconds={minutesToSeconds(shortBreakDuration)}
+              alarmSound={"/basicalarm.wav"}
+            />
+          ) : null}
+          {timerView === "longBreak" ? (
+            <Timer
+              seconds={minutesToSeconds(longBreakDuration)}
+              alarmSound={"/basicalarm.wav"}
+            />
+          ) : null}
 
           <Dialog open={isUserSettingsModalOpen} onClose={exitSettings}>
             <Settings
