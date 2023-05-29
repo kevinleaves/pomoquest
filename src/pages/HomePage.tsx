@@ -1,7 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import { Dialog } from "@mui/material";
+import { Dialog, Button } from "@mui/material";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Timer from "~/features/timer/components/Timer";
 import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
@@ -90,12 +89,9 @@ export const HomePage: NextPage = () => {
             <Shop isShopOpen={isShopOpen} off={exitShop} />
           </Dialog>
 
-          <Link
-            className="border-solid-grey rounded-lg border-2 p-3 hover:bg-purple-400"
-            href="/notes"
-          >
+          <Button href="/notes" variant="contained" color="error">
             view all notes
-          </Link>
+          </Button>
         </SignedIn>
       </main>
     </>
