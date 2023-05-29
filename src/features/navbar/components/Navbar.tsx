@@ -52,7 +52,15 @@ export default function Navbar({
           </Button>
         </SignedOut>
         <SignedIn>
-          <UserButton afterSignOutUrl={"https://pomoquest.vercel.app/"} />
+          <UserButton
+            afterSignOutUrl={"https://pomoquest.vercel.app/"}
+            appearance={{
+              elements: {
+                userButtonTrigger: "rounded-md",
+                avatarBox: "rounded-md",
+              },
+            }}
+          />
         </SignedIn>
       </div>
     </div>

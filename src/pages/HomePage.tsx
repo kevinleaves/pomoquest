@@ -3,7 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { Dialog } from "@mui/material";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import { api } from "~/utils/api";
 import Timer from "~/features/timer/components/Timer";
 import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
 import Navbar from "~/features/navbar/components/Navbar";
