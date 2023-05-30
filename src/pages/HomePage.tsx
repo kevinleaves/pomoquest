@@ -62,8 +62,16 @@ export const HomePage: NextPage = () => {
           toggleShop={toggleShop}
         />
         <SignedOut>
-          <Timer seconds={minutesToSeconds(25)} alarmSound={alarmSound} />
-          <Timer seconds={minutesToSeconds(5)} alarmSound={alarmSound} />
+          <Timer
+            seconds={minutesToSeconds(25)}
+            alarmSound={alarmSound}
+            setTimerView={setTimerView}
+          />
+          <Timer
+            seconds={minutesToSeconds(5)}
+            alarmSound={alarmSound}
+            setTimerView={setTimerView}
+          />
         </SignedOut>
         <SignedIn>
           <div className="flex gap-2">
@@ -82,18 +90,21 @@ export const HomePage: NextPage = () => {
             <Timer
               seconds={minutesToSeconds(pomoDuration)}
               alarmSound={"/basicalarm.wav"}
+              setTimerView={setTimerView}
             />
           ) : null}
           {timerView === "shortBreak" ? (
             <Timer
               seconds={minutesToSeconds(shortBreakDuration)}
               alarmSound={"/basicalarm.wav"}
+              setTimerView={setTimerView}
             />
           ) : null}
           {timerView === "longBreak" ? (
             <Timer
               seconds={minutesToSeconds(longBreakDuration)}
               alarmSound={"/basicalarm.wav"}
+              setTimerView={setTimerView}
             />
           ) : null}
 

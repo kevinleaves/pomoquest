@@ -8,9 +8,10 @@ import { Button } from "@mui/material";
 interface Props {
   seconds: number;
   alarmSound: string;
+  setTimerView: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function Timer({ seconds, alarmSound }: Props) {
+export default function Timer({ seconds, alarmSound, setTimerView }: Props) {
   const [time, setTime] = useState(seconds);
   const [status, { off: stopTimer, toggle: toggleTimer }] = useToggle();
 
@@ -40,6 +41,26 @@ export default function Timer({ seconds, alarmSound }: Props) {
     toggleTimer();
   };
 
+  // function to fire sideeffects when timer runs out
+  const handleTimerEnd = useCallback(() => {
+    stopTimer();
+    addCoins({ amount: 25 });
+    playAlarm();
+    // set timer view based on prior state
+    setTimerView((prevTimerView) => {
+      switch (prevTimerView) {
+        case "pomodoro":
+          return "shortBreak";
+        case "shortBreak":
+          return "pomodoro";
+        case "longBreak":
+          return "pomodoro";
+        default:
+          return prevTimerView;
+      }
+    });
+  }, [stopTimer, addCoins, playAlarm, setTimerView]);
+
   useEffect(() => {
     let intervalId: string | number | NodeJS.Timeout | undefined;
 
@@ -50,12 +71,11 @@ export default function Timer({ seconds, alarmSound }: Props) {
     }
 
     if (time === 0) {
-      addCoins({ amount: 25 });
-      playAlarm();
+      handleTimerEnd();
     }
 
     return () => clearInterval(intervalId);
-  }, [status, time, addCoins, playAlarm]);
+  }, [status, time, handleTimerEnd]);
 
   return (
     <div className="flex h-80 w-5/6 max-w-md flex-col items-center justify-center gap-5 overflow-hidden rounded-3xl border bg-[#212A3E] p-24 text-white md:w-1/2">
