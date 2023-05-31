@@ -78,13 +78,21 @@ export default function Timer({ seconds, alarmSound, setTimerView }: Props) {
   }, [status, time, handleTimerEnd]);
 
   return (
-    <div className="flex h-80 w-5/6 max-w-md flex-col items-center justify-center gap-5 overflow-hidden rounded-3xl border bg-[#212A3E] p-24 text-white md:w-1/2">
-      <div className="text-8xl md:text-9xl">{formmatedTime}</div>
+    <div className="flex h-80 w-5/6 max-w-md flex-col items-center justify-center gap-5 overflow-hidden rounded-3xl border bg-[#FDFD96] p-24 text-black drop-shadow-brutal md:w-1/2">
+      <div className="text-8xl font-semibold md:text-9xl">{formmatedTime}</div>
       <div className="flex w-full justify-center gap-5">
-        <Button onClick={handleClick} variant="contained">
+        <Button
+          onClick={handleClick}
+          variant="contained"
+          className="drop-shadow-lessBrutal"
+        >
           {status ? "STOP" : "START"}
         </Button>
-        <Button onClick={resetTimer} variant="contained">
+        <Button
+          onClick={resetTimer}
+          variant="contained"
+          className="drop-shadow-lessBrutal"
+        >
           reset
         </Button>
       </div>
