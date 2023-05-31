@@ -51,7 +51,7 @@ export const HomePage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        className="flex min-h-screen flex-col items-center gap-5 bg-[#343a40]"
+        className="flex min-h-screen flex-col items-center gap-5 bg-[#e3dff2] font-publicSans"
         style={{ backgroundColor: bgColor }}
       >
         <Navbar
@@ -62,16 +62,40 @@ export const HomePage: NextPage = () => {
           toggleShop={toggleShop}
         />
         <SignedOut>
-          <Timer
-            seconds={minutesToSeconds(25)}
-            alarmSound={alarmSound}
-            setTimerView={setTimerView}
-          />
-          <Timer
-            seconds={minutesToSeconds(5)}
-            alarmSound={alarmSound}
-            setTimerView={setTimerView}
-          />
+          <div className="flex gap-2">
+            {["pomodoro", "shortBreak", "longBreak"].map((status, index) => (
+              <Button
+                key={index}
+                onClick={() => setTimerView(status)}
+                variant="contained"
+                color="success"
+                className="drop-shadow-lessBrutal"
+              >
+                {status}
+              </Button>
+            ))}
+          </div>
+          {timerView === "pomodoro" ? (
+            <Timer
+              seconds={minutesToSeconds(25)}
+              alarmSound={"/basicalarm.wav"}
+              setTimerView={setTimerView}
+            />
+          ) : null}
+          {timerView === "shortBreak" ? (
+            <Timer
+              seconds={minutesToSeconds(5)}
+              alarmSound={"/basicalarm.wav"}
+              setTimerView={setTimerView}
+            />
+          ) : null}
+          {timerView === "longBreak" ? (
+            <Timer
+              seconds={minutesToSeconds(15)}
+              alarmSound={"/basicalarm.wav"}
+              setTimerView={setTimerView}
+            />
+          ) : null}
         </SignedOut>
         <SignedIn>
           <div className="flex gap-2">
@@ -81,6 +105,7 @@ export const HomePage: NextPage = () => {
                 onClick={() => setTimerView(status)}
                 variant="contained"
                 color="success"
+                className="drop-shadow-lessBrutal"
               >
                 {status}
               </Button>
@@ -120,7 +145,12 @@ export const HomePage: NextPage = () => {
             <Shop isShopOpen={isShopOpen} off={exitShop} />
           </Dialog>
 
-          <Button href="/notes" variant="contained" color="error">
+          <Button
+            href="/notes"
+            variant="contained"
+            color="error"
+            className="drop-shadow-lessBrutal"
+          >
             view all notes
           </Button>
         </SignedIn>
