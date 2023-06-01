@@ -47,7 +47,7 @@ export const HomePage: NextPage = () => {
     <>
       <Head>
         <title>pomoquest.io</title>
-        <meta name="description" content="notes but audio" />
+        <meta name="description" content="a new way to grind" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
