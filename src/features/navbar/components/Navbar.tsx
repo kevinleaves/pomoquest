@@ -18,8 +18,8 @@ export default function Navbar({
   toggleShop,
 }: Props) {
   return (
-    <div className="flex items-center justify-between border-b border-slate-300 p-2 md:h-16 md:w-1/2">
-      <h1 className="text-md justify-self-center text-[#F1F6F9] md:text-3xl">
+    <div className="flex w-full flex-wrap items-center justify-between border-b border-slate-300 bg-[#FFFFFF] p-2 md:h-16">
+      <h1 className="justify-self-center text-center text-xl font-extrabold text-black md:text-3xl ">
         pomoquest
       </h1>
       <div className="flex gap-2 md:gap-5">
@@ -29,6 +29,7 @@ export default function Navbar({
             onClick={() => toggleUserSettings(!isUserSettingsModalOpen)}
             color="secondary"
             size="small"
+            className="drop-shadow-lessBrutal"
           >
             settings
           </Button>
@@ -37,6 +38,7 @@ export default function Navbar({
             onClick={() => toggleShop(!isShopOpen)}
             color="primary"
             size="small"
+            className="drop-shadow-lessBrutal"
           >
             Shop: {coinAmount?.toLocaleString()} coins
           </Button>
@@ -47,12 +49,21 @@ export default function Navbar({
             color="primary"
             size="medium"
             href="/login"
+            className="drop-shadow-lessBrutal"
           >
             login
           </Button>
         </SignedOut>
         <SignedIn>
-          <UserButton afterSignOutUrl={"https://pomoquest.vercel.app/"} />
+          <UserButton
+            afterSignOutUrl={"https://pomoquest.vercel.app/"}
+            appearance={{
+              elements: {
+                userButtonTrigger: "rounded-md drop-shadow-lessBrutal",
+                avatarBox: "rounded-md",
+              },
+            }}
+          />
         </SignedIn>
       </div>
     </div>

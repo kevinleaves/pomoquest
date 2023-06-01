@@ -11,35 +11,19 @@ import { useAuth } from "@clerk/nextjs";
 export default function useUserSettings() {
   const ctx = api.useContext();
   const { isSignedIn } = useAuth();
-
   // queries
-  const { data: alarmSound, isLoading: isAlarmSoundLoading } =
-    api.settings.getCurrentAlarmSound.useQuery(undefined, {
+
+  const { data: userSettings, isInitialLoading: isUserSettingsLoading } =
+    api.settings.getAllUserSettings.useQuery(undefined, {
       enabled: !!isSignedIn,
     });
 
-  const { data: pomoDuration, isLoading: isPomoDurationLoading } =
-    api.settings.getPomoDuration.useQuery(undefined, { enabled: !!isSignedIn });
-
-  const { data: bgColor } = api.settings.getCurrentBgColor.useQuery(undefined, {
-    enabled: !!isSignedIn,
-  });
-
-  const { data: shortBreakDuration, isLoading: isSBreakLoading } =
-    api.settings.getShortBreakDuration.useQuery(undefined, {
-      enabled: !!isSignedIn,
+  const { mutate: mutateBgColor, isLoading: isBgColorMutating } =
+    api.settings.updateBgColor.useMutation({
+      onSuccess: () => {
+        void ctx.settings.getAllUserSettings.invalidate();
+      },
     });
-
-  const { data: longBreakDuration, isLoading: isLBreakLoading } =
-    api.settings.getLongBreakDuration.useQuery(undefined, {
-      enabled: !!isSignedIn,
-    });
-
-  const { mutate: mutateBgColor } = api.settings.updateBgColor.useMutation({
-    onSuccess: () => {
-      void ctx.settings.getCurrentBgColor.invalidate();
-    },
-  });
 
   const updateBgColor = (hexValue: string) => {
     mutateBgColor({ hexValue });
@@ -47,20 +31,18 @@ export default function useUserSettings() {
 
   return {
     data: {
-      bgColor: bgColor ?? "",
-      alarmSound: alarmSound ?? "",
-      pomoDuration: pomoDuration ?? 25,
-      shortBreakDuration: shortBreakDuration ?? 5,
-      longBreakDuration: longBreakDuration ?? 15,
+      bgColor: userSettings?.["bg-color"] ?? "",
+      alarmSound: userSettings?.["alarm-sound"] ?? "",
+      pomoDuration: Number(userSettings?.["pomo-duration"]) ?? 25,
+      shortBreakDuration: Number(userSettings?.["short-break-duration"]) ?? 5,
+      longBreakDuration: Number(userSettings?.["long-break-duration"]) ?? 15,
     },
     mutations: {
       updateBgColor,
     },
     loading: {
-      isAlarmSoundLoading,
-      isPomoDurationLoading,
-      isSBreakLoading,
-      isLBreakLoading,
+      isUserSettingsLoading,
+      isBgColorMutating,
     },
   };
 }
