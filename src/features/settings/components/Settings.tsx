@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "~/features/common/components/Button";
 import { api } from "~/utils/api";
 
 interface Props {

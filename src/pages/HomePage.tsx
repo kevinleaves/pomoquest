@@ -6,7 +6,6 @@ import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Timer from "~/features/timer/components/Timer";
 import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
 import Navbar from "~/features/navbar/components/Navbar";
-import Settings from "~/features/settings/components/Settings";
 import useToggle from "~/features/timer/hooks/useToogle";
 import Shop from "~/features/shop/components/Shop";
 import useUserSettings from "~/features/settings/hooks/useUserSettings";
