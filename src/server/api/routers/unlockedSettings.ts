@@ -42,14 +42,37 @@ export const unlockedSettingsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const userID = ctx.currentUser;
       const { itemId } = input;
-      await ctx.prisma.unlockable.update({
+      const user = await ctx.prisma.user.findUnique({
+        where: {
+          id: userID,
+        },
+        select: {
+          coins: true,
+        },
+      });
+
+      const item = await ctx.prisma.unlockable.findUnique({
         where: {
           id: itemId,
         },
-        data: {
-          purchased: true,
+        select: {
+          cost: true,
         },
       });
+
+      if (user && item && user.coins >= item.cost) {
+        await ctx.prisma.unlockable.update({
+          where: {
+            id: itemId,
+          },
+          data: {
+            purchased: true,
+          },
+        });
+      } else {
+        throw new Error("Insufficient coins.");
+      }
     }),
 });

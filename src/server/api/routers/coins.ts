@@ -58,15 +58,28 @@ export const coinsRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const userID = ctx.currentUser;
       const { amount } = input;
-      await ctx.prisma.user.update({
+      const user = await ctx.prisma.user.findUnique({
         where: {
           id: userID,
         },
-        data: {
-          coins: {
-            decrement: amount,
-          },
+        select: {
+          coins: true,
         },
       });
+
+      if (user && user.coins >= amount) {
+        await ctx.prisma.user.update({
+          where: {
+            id: userID,
+          },
+          data: {
+            coins: {
+              decrement: amount,
+            },
+          },
+        });
+      } else {
+        throw new Error("Insufficient coins.");
+      }
     }),
 });
