@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
 export const unlockedSettingsRouter = createTRPCRouter({
@@ -34,4 +35,21 @@ export const unlockedSettingsRouter = createTRPCRouter({
     });
     return lockedBGColors;
   }),
+  purchaseItem: privateProcedure
+    .input(
+      z.object({
+        itemId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { itemId } = input;
+      await ctx.prisma.unlockable.update({
+        where: {
+          id: itemId,
+        },
+        data: {
+          purchased: true,
+        },
+      });
+    }),
 });
