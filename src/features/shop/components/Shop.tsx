@@ -1,14 +1,39 @@
 import React, { useState } from "react";
 import { api } from "~/utils/api";
 import type { Unlockable } from "@prisma/client";
+import { Snackbar, Alert } from "@mui/material";
 
 interface Props {
   isShopOpen: boolean;
   off: () => void;
 }
 
+function PurchaseFeedback() {
+  const [open, setOpen] = useState(false);
+
+  const handlePurchase = () => {
+    setOpen(true); // Show the Snackbar after successful purchase
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <button onClick={handlePurchase}>Make Purchase</button>
+
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Purchase Successful!
+        </Alert>
+      </Snackbar>
+    </div>
+  );
+}
+
 export default function Shop({ isShopOpen, off }: Props) {
-  const [currentlySelected, setCurrentlySelected] = useState(2);
+  const [currentlySelected, setCurrentlySelected] = useState(0);
   const { data: purchasableBGColors, isLoading } =
     api.unlockedSettings.getLockedBGColors.useQuery();
 
@@ -30,14 +55,15 @@ export default function Shop({ isShopOpen, off }: Props) {
     const itemId = item.id;
     const amount = Number(item.cost);
 
+    //purchase only if user has >= amount of coins needed for the purchase. this is currently handled in the backend. need to send error messages to the frontend for user feedback
     purchaseItem({ itemId });
-    //purchase only if user has >= amount of coins needed for the purchase
     subtractCoins({ amount });
   }
 
   return isShopOpen ? (
     <div className="rounded-xl bg-white p-10 font-archivo md:fixed md:left-1/2 md:top-1/2 md:h-3/4 md:w-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
       <div className="text-center font-publicSans text-3xl font-bold">SHOP</div>
+      <PurchaseFeedback />
       <button
         className="absolute right-5 top-0 text-2xl transition hover:scale-110"
         onClick={off}
