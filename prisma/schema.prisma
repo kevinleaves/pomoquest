@@ -38,6 +38,7 @@ model Unlockable {
   value     String
   cost      Int
   userId    String
+  purchased Boolean     @default(false)
   user      User        @relation(fields: [userId], references: [id])
   @@index([userId])
 }
