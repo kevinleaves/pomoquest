@@ -7,6 +7,7 @@ export const unlockedSettingsRouter = createTRPCRouter({
       where: {
         userId: userID,
         type: "bg-color",
+        purchased: true,
       },
     });
     return unlockedBGColors;
