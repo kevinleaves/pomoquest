@@ -59,7 +59,7 @@ export default function Navbar({
             afterSignOutUrl={"https://pomoquest.vercel.app/"}
             appearance={{
               elements: {
-                userButtonTrigger: "rounded-md",
+                userButtonTrigger: "rounded-md drop-shadow-lessBrutal",
                 avatarBox: "rounded-md",
               },
             }}
