@@ -22,6 +22,15 @@ export default function Settings({
   const { data: possibleBGColors } =
     api.unlockedSettings.getUnlockedBGColors.useQuery();
 
+  const { mutate: mutatePomoduration } =
+    api.settings.mutatePomoduration.useMutation();
+
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    console.log("submitted");
+    e.preventDefault();
+    mutatePomoduration({ duration: "30" });
+  };
+
   return isUserSettingsModalOpen ? (
     <div className="h-full rounded-xl bg-white p-10 font-publicSans md:fixed md:left-1/2 md:top-1/2 md:h-3/4 md:w-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
       <div className="text-2xl font-bold">Settings</div>
@@ -40,17 +49,28 @@ export default function Settings({
       <div className="flex"></div>
       <div className="flex"></div>
 
-      <TextField type="number" defaultValue={pomoDuration} color="secondary" />
-      <TextField
-        type="number"
-        defaultValue={shortBreakDuration}
-        color="secondary"
-      />
-      <TextField
-        type="number"
-        defaultValue={longBreakDuration}
-        color="secondary"
-      />
+      <form onSubmit={handleSubmit}>
+        <TextField
+          type="text"
+          defaultValue={pomoDuration}
+          color="secondary"
+          inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+          helperText="Pomodoro duration"
+        />
+        <TextField
+          type="number"
+          defaultValue={shortBreakDuration}
+          color="secondary"
+          helperText="Short break duration"
+        />
+        <TextField
+          type="number"
+          defaultValue={longBreakDuration}
+          color="secondary"
+          helperText="Long break duration"
+        />
+        <button type="submit">change pomo duration</button>
+      </form>
       <button
         className="absolute right-5 top-3  text-2xl  font-bold transition hover:scale-110"
         onClick={off}
