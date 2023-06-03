@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
-import { Dialog, Button } from "@mui/material";
+import { Dialog, Button, duration } from "@mui/material";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Timer from "~/features/timer/components/Timer";
 import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
@@ -33,6 +33,12 @@ export const HomePage: NextPage = () => {
     mutations: { updateBgColor },
     loading: { isUserSettingsLoading },
   } = useUserSettings();
+
+  const durations = {
+    pomo: pomoDuration,
+    short: shortBreakDuration,
+    long: longBreakDuration,
+  };
 
   const {
     data: { coinAmount },
@@ -138,7 +144,11 @@ export const HomePage: NextPage = () => {
               isUserSettingsModalOpen={isUserSettingsModalOpen}
               off={exitSettings}
               updateBgColor={updateBgColor}
-              // pomoDuration={pomoDuration}
+              durations={{
+                pomoDuration,
+                shortBreakDuration,
+                longBreakDuration,
+              }}
             />
           </Dialog>
           <Dialog open={isShopOpen} onClose={exitShop}>

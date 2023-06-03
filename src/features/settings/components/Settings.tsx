@@ -1,16 +1,23 @@
 import React from "react";
 import { api } from "~/utils/api";
+import { TextField } from "@mui/material";
 
 interface Props {
   isUserSettingsModalOpen: boolean;
   off: () => void;
   updateBgColor: (hexValue: string) => void;
+  durations: {
+    pomoDuration: number;
+    shortBreakDuration: number;
+    longBreakDuration: number;
+  };
 }
 
 export default function Settings({
   isUserSettingsModalOpen,
   off,
   updateBgColor,
+  durations: { pomoDuration, shortBreakDuration, longBreakDuration },
 }: Props) {
   const { data: possibleBGColors } =
     api.unlockedSettings.getUnlockedBGColors.useQuery();
@@ -33,6 +40,17 @@ export default function Settings({
       <div className="flex"></div>
       <div className="flex"></div>
 
+      <TextField type="number" defaultValue={pomoDuration} color="secondary" />
+      <TextField
+        type="number"
+        defaultValue={shortBreakDuration}
+        color="secondary"
+      />
+      <TextField
+        type="number"
+        defaultValue={longBreakDuration}
+        color="secondary"
+      />
       <button
         className="absolute right-5 top-3  text-2xl  font-bold transition hover:scale-110"
         onClick={off}
