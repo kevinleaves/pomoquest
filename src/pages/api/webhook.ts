@@ -83,6 +83,45 @@ export default async function handler(
         },
       ],
     });
+    await prisma.unlockable.createMany({
+      data: [
+        {
+          userId: id,
+          type: "bg-color",
+          value: "#C4A1FF",
+          label: "purple",
+          cost: 100,
+        },
+        {
+          userId: id,
+          type: "bg-color",
+          value: "#90EE90",
+          label: "green",
+          cost: 100,
+        },
+        {
+          userId: id,
+          type: "bg-color",
+          value: "#FFB2EF",
+          label: "grey",
+          cost: 900,
+        },
+        {
+          userId: id,
+          type: "bg-color",
+          value: "#E3DFF2",
+          label: "blue",
+          cost: 0,
+        },
+        {
+          userId: id,
+          type: "bg-color",
+          value: "#69D2E7",
+          label: "blue",
+          cost: 50,
+        },
+      ],
+    });
     return res.status(200).json({});
   }
 
