@@ -53,6 +53,36 @@ export default async function handler(
         coins: 0,
       },
     });
+
+    await prisma.userSetting.createMany({
+      data: [
+        {
+          userId: id,
+          key: "bg-color",
+          value: "#E3DFF2",
+        },
+        {
+          userId: id,
+          key: "alarm-sound",
+          value: "/basicalarm.wav",
+        },
+        {
+          userId: id,
+          key: "pomo-duration",
+          value: "25",
+        },
+        {
+          userId: id,
+          key: "short-break-duration",
+          value: "5",
+        },
+        {
+          userId: id,
+          key: "long-break-duration",
+          value: "15",
+        },
+      ],
+    });
     return res.status(200).json({});
   }
 
