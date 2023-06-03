@@ -105,6 +105,7 @@ export default async function handler(
           value: "#FFB2EF",
           label: "grey",
           cost: 900,
+          purchased: true,
         },
         {
           userId: id,
