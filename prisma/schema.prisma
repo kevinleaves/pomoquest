@@ -15,12 +15,12 @@ datasource db {
 // auth
 
 model Note {
-    id      String      @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    title String @db.VarChar(100)
-    content String
-    authorId String
+    id            String      @id @default(cuid())
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
+    title         String      @db.VarChar(100)
+    content       String
+    authorId      String
     @@index([authorId])
 }
 
@@ -39,7 +39,7 @@ model Unlockable {
   cost      Int
   userId    String
   purchased Boolean     @default(false)
-  user      User        @relation(fields: [userId], references: [id])
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@index([userId])
 }
 
@@ -48,6 +48,6 @@ model UserSetting {
   key       String
   value     String
   userId    String
-  user      User        @relation(fields: [userId], references: [id])
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@index([userId])
 }
