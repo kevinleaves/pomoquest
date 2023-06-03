@@ -43,41 +43,41 @@ export default async function handler(
   } catch (_) {
     return res.status(400).json({});
   }
-  const { id } = evt.data;
+  const { id: userId } = evt.data;
   // Handle the webhook
   const eventType: EventType = evt.type;
   if (eventType === "user.created") {
     await prisma.user.create({
       data: {
-        id,
-        coins: 0,
+        id: userId,
+        coins: 50,
       },
     });
 
     await prisma.userSetting.createMany({
       data: [
         {
-          userId: id,
+          userId,
           key: "bg-color",
           value: "#E3DFF2",
         },
         {
-          userId: id,
+          userId,
           key: "alarm-sound",
           value: "/basicalarm.wav",
         },
         {
-          userId: id,
+          userId,
           key: "pomo-duration",
           value: "25",
         },
         {
-          userId: id,
+          userId,
           key: "short-break-duration",
           value: "5",
         },
         {
-          userId: id,
+          userId,
           key: "long-break-duration",
           value: "15",
         },
@@ -86,36 +86,35 @@ export default async function handler(
     await prisma.unlockable.createMany({
       data: [
         {
-          userId: id,
+          userId,
           type: "bg-color",
           value: "#C4A1FF",
           label: "purple",
           cost: 100,
         },
         {
-          userId: id,
+          userId,
           type: "bg-color",
           value: "#90EE90",
           label: "green",
           cost: 100,
         },
         {
-          userId: id,
+          userId,
           type: "bg-color",
           value: "#FFB2EF",
-          label: "grey",
+          label: "pink",
           cost: 900,
-          purchased: true,
         },
         {
-          userId: id,
+          userId,
           type: "bg-color",
           value: "#E3DFF2",
-          label: "blue",
-          cost: 0,
+          label: "grey",
+          cost: 50,
         },
         {
-          userId: id,
+          userId,
           type: "bg-color",
           value: "#69D2E7",
           label: "blue",
@@ -126,7 +125,17 @@ export default async function handler(
     return res.status(200).json({});
   }
 
-  console.log(`User ${id} was ${eventType}`);
+  // delete user => delete all their rows from db
+  if (eventType === "user.deleted") {
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+  }
+
+  console.log(`User ${userId} was ${eventType}`);
+
   res.status(201).json({});
 }
 
@@ -140,4 +149,4 @@ type Event = {
   type: EventType;
 };
 
-type EventType = "user.created" | "user.updated" | "*";
+type EventType = "user.created" | "user.updated" | "user.deleted" | "*";
