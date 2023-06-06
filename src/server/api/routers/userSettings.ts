@@ -142,19 +142,39 @@ export const settingsRouter = createTRPCRouter({
   mutatePomoduration: privateProcedure
     .input(
       z.object({
-        duration: z.string(),
+        pomoduration: z.string(),
+        shortduration: z.string(),
+        longduration: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const userID = ctx.currentUser;
-      const { duration } = input;
+      const { pomoduration, shortduration, longduration } = input;
       await ctx.prisma.userSetting.updateMany({
         where: {
           userId: userID,
           key: "pomo-duration",
         },
         data: {
-          value: duration,
+          value: pomoduration,
+        },
+      });
+      await ctx.prisma.userSetting.updateMany({
+        where: {
+          userId: userID,
+          key: "short-break-duration",
+        },
+        data: {
+          value: shortduration,
+        },
+      });
+      await ctx.prisma.userSetting.updateMany({
+        where: {
+          userId: userID,
+          key: "long-break-duration",
+        },
+        data: {
+          value: longduration,
         },
       });
     }),

@@ -8,10 +8,14 @@ interface Props {
   updateBgColor: (hexValue: string) => void;
   durations: {
     pomoDuration: number | string;
-    shortBreakDuration: number;
-    longBreakDuration: number;
+    shortBreakDuration: number | string;
+    longBreakDuration: number | string;
   };
-  updatePomoDuration: (duration: string) => void;
+  updatePomoDuration: (
+    pomoduration: string,
+    shortduration: string,
+    longduration: string
+  ) => void;
 }
 
 export default function Settings({
@@ -34,7 +38,10 @@ export default function Settings({
     console.log("submitted");
     e.preventDefault();
     const pomoDuration = timers.pomoDuration.toString();
-    updatePomoDuration(pomoDuration);
+    const shortDuration = timers.shortBreakDuration.toString();
+    const longDuration = timers.longBreakDuration.toString();
+
+    updatePomoDuration(pomoDuration, shortDuration, longDuration);
   };
 
   return isUserSettingsModalOpen ? (
@@ -56,31 +63,54 @@ export default function Settings({
       <div className="flex"></div>
 
       <form onSubmit={handleSubmit}>
-        <TextField
-          type="text"
-          defaultValue={timers.pomoDuration}
-          value={timers.pomoDuration}
-          color="secondary"
-          inputProps={{ inputMode: "numeric", pattern: "^[1-9][0-9]*$" }}
-          helperText="Pomodoro duration"
-          onChange={(e) =>
-            setTimers({ ...timers, pomoDuration: e.target.value })
-          }
-          required
-        />
-        <TextField
-          type="number"
-          defaultValue={shortBreakDuration}
-          color="secondary"
-          helperText="Short break duration"
-        />
-        <TextField
-          type="number"
-          defaultValue={longBreakDuration}
-          color="secondary"
-          helperText="Long break duration"
-        />
-        <button type="submit">change pomo duration</button>
+        <div className="flex gap-5 py-5">
+          <TextField
+            type="text"
+            defaultValue={timers.pomoDuration}
+            value={timers.pomoDuration}
+            color="secondary"
+            inputProps={{ inputMode: "numeric", pattern: "^[1-9][0-9]*$" }}
+            helperText="Pomodoro duration"
+            onChange={(e) =>
+              setTimers({ ...timers, pomoDuration: e.target.value })
+            }
+            required
+            sx={{
+              width: "6rem",
+            }}
+          />
+          <TextField
+            type="text"
+            inputProps={{ inputMode: "numeric", pattern: "^[1-9][0-9]*$" }}
+            defaultValue={timers.shortBreakDuration}
+            value={timers.shortBreakDuration}
+            color="secondary"
+            helperText="Short break duration"
+            required
+            onChange={(e) =>
+              setTimers({ ...timers, shortBreakDuration: e.target.value })
+            }
+            sx={{
+              width: "6rem",
+            }}
+          />
+          <TextField
+            type="text"
+            inputProps={{ inputMode: "numeric", pattern: "^[1-9][0-9]*$" }}
+            defaultValue={timers.longBreakDuration}
+            value={timers.longBreakDuration}
+            color="secondary"
+            helperText="Long break duration"
+            required
+            onChange={(e) =>
+              setTimers({ ...timers, longBreakDuration: e.target.value })
+            }
+            sx={{
+              width: "6rem",
+            }}
+          />
+          <button type="submit">change pomo duration</button>
+        </div>
       </form>
       <button
         className="absolute right-5 top-3  text-2xl  font-bold transition hover:scale-110"

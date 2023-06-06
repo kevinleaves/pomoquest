@@ -36,8 +36,12 @@ export default function useUserSettings() {
       },
     });
 
-  const updatePomoDuration = (duration: string) => {
-    mutatePomoduration({ duration });
+  const updatePomoDuration = (
+    pomoduration: string,
+    shortduration: string,
+    longduration: string
+  ) => {
+    mutatePomoduration({ pomoduration, shortduration, longduration });
   };
 
   return {
