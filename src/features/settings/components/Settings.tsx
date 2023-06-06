@@ -61,11 +61,12 @@ export default function Settings({
           defaultValue={timers.pomoDuration}
           value={timers.pomoDuration}
           color="secondary"
-          inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+          inputProps={{ inputMode: "numeric", pattern: "^[1-9][0-9]*$" }}
           helperText="Pomodoro duration"
           onChange={(e) =>
             setTimers({ ...timers, pomoDuration: e.target.value })
           }
+          required
         />
         <TextField
           type="number"
