@@ -61,6 +61,11 @@ export default function Timer({ seconds, alarmSound, setTimerView }: Props) {
     });
   }, [stopTimer, addCoins, playAlarm, setTimerView]);
 
+  // update timer component state when seconds prop changes. i thought when seconds changed the Timer component would rerender, causing the time to update, but this is not the case.
+  useEffect(() => {
+    setTime(seconds);
+  }, [seconds]);
+
   useEffect(() => {
     let intervalId: string | number | NodeJS.Timeout | undefined;
 

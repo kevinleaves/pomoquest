@@ -30,7 +30,7 @@ export const HomePage: NextPage = () => {
       shortBreakDuration,
       longBreakDuration,
     },
-    mutations: { updateBgColor },
+    mutations: { updateBgColor, updatePomoDuration },
     loading: { isUserSettingsLoading },
   } = useUserSettings();
 
@@ -149,6 +149,7 @@ export const HomePage: NextPage = () => {
                 shortBreakDuration,
                 longBreakDuration,
               }}
+              updatePomoDuration={updatePomoDuration}
             />
           </Dialog>
           <Dialog open={isShopOpen} onClose={exitShop}>

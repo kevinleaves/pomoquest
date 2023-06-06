@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { api } from "~/utils/api";
 import { TextField } from "@mui/material";
 
@@ -7,10 +7,11 @@ interface Props {
   off: () => void;
   updateBgColor: (hexValue: string) => void;
   durations: {
-    pomoDuration: number;
+    pomoDuration: number | string;
     shortBreakDuration: number;
     longBreakDuration: number;
   };
+  updatePomoDuration: (duration: string) => void;
 }
 
 export default function Settings({
@@ -18,17 +19,22 @@ export default function Settings({
   off,
   updateBgColor,
   durations: { pomoDuration, shortBreakDuration, longBreakDuration },
+  updatePomoDuration,
 }: Props) {
+  const [timers, setTimers] = useState({
+    pomoDuration,
+    shortBreakDuration,
+    longBreakDuration,
+  });
+
   const { data: possibleBGColors } =
     api.unlockedSettings.getUnlockedBGColors.useQuery();
-
-  const { mutate: mutatePomoduration } =
-    api.settings.mutatePomoduration.useMutation();
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     console.log("submitted");
     e.preventDefault();
-    mutatePomoduration({ duration: "30" });
+    const pomoDuration = timers.pomoDuration.toString();
+    updatePomoDuration(pomoDuration);
   };
 
   return isUserSettingsModalOpen ? (
@@ -52,10 +58,14 @@ export default function Settings({
       <form onSubmit={handleSubmit}>
         <TextField
           type="text"
-          defaultValue={pomoDuration}
+          defaultValue={timers.pomoDuration}
+          value={timers.pomoDuration}
           color="secondary"
           inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
           helperText="Pomodoro duration"
+          onChange={(e) =>
+            setTimers({ ...timers, pomoDuration: e.target.value })
+          }
         />
         <TextField
           type="number"
