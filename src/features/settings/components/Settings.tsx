@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { api } from "~/utils/api";
 import { TextField } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 
 interface Props {
   isUserSettingsModalOpen: boolean;
@@ -47,23 +48,20 @@ export default function Settings({
   return isUserSettingsModalOpen ? (
     <div className="h-full rounded-xl bg-white p-10 font-publicSans md:fixed md:left-1/2 md:top-1/2 md:h-3/4 md:w-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
       <div className="text-2xl font-bold">Settings</div>
-      <h3 className="text-xl">theme</h3>
-      <div className="flex gap-2">
+      <Divider className="py-5">theme</Divider>
+      <div className="flex flex-wrap gap-2">
         {possibleBGColors?.map((color) => (
           <button
             key={color.id}
             onClick={() => updateBgColor(color.value)}
-            className="h-20 w-20 rounded-lg"
+            className="h-16 w-16 rounded-lg md:h-20 md:w-20"
             style={{ backgroundColor: color.value }}
           ></button>
         ))}
       </div>
-      <div className="flex"></div>
-      <div className="flex"></div>
-      <div className="flex"></div>
-
+      <Divider className="py-5">duration</Divider>
       <form onSubmit={handleSubmit}>
-        <div className="flex gap-5 py-5">
+        <div className="flex flex-col gap-5 md:flex-row">
           <TextField
             type="text"
             defaultValue={timers.pomoDuration}
@@ -109,9 +107,10 @@ export default function Settings({
               width: "6rem",
             }}
           />
-          <button type="submit">change pomo duration</button>
+          <Button type="submit">change pomo duration</Button>
         </div>
       </form>
+      <Divider />
       <button
         className="absolute right-5 top-3  text-2xl  font-bold transition hover:scale-110"
         onClick={off}
