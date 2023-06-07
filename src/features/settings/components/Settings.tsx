@@ -48,7 +48,9 @@ export default function Settings({
   return isUserSettingsModalOpen ? (
     <div className="h-full rounded-xl bg-white p-10 font-publicSans md:fixed md:left-1/2 md:top-1/2 md:h-3/4 md:w-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
       <div className="text-2xl font-bold">Settings</div>
-      <Divider className="py-5">theme</Divider>
+      <Divider className="py-5" textAlign="left">
+        theme
+      </Divider>
       <div className="flex flex-wrap gap-2">
         {possibleBGColors?.map((color) => (
           <button
@@ -59,7 +61,9 @@ export default function Settings({
           ></button>
         ))}
       </div>
-      <Divider className="py-5">duration</Divider>
+      <Divider className="py-5" textAlign="left">
+        duration
+      </Divider>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5 md:flex-row">
           <TextField
