@@ -73,7 +73,6 @@ export default function Settings({
         <div className="flex flex-col gap-5 md:flex-row">
           <TextField
             type="text"
-            defaultValue={timers.pomoDuration}
             value={timers.pomoDuration}
             color="secondary"
             inputProps={{ inputMode: "numeric", pattern: "^[1-9][0-9]*$" }}
@@ -93,7 +92,6 @@ export default function Settings({
           <TextField
             type="text"
             inputProps={{ inputMode: "numeric", pattern: "^[1-9][0-9]*$" }}
-            defaultValue={timers.shortBreakDuration}
             value={timers.shortBreakDuration}
             color="secondary"
             helperText="Short break duration"
@@ -112,7 +110,6 @@ export default function Settings({
           <TextField
             type="text"
             inputProps={{ inputMode: "numeric", pattern: "^[1-9][0-9]*$" }}
-            defaultValue={timers.longBreakDuration}
             value={timers.longBreakDuration}
             color="secondary"
             helperText="Long break duration"
