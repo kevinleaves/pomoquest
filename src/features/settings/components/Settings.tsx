@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { api } from "~/utils/api";
 import { TextField } from "@mui/material";
 import { Button, Divider } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 interface Props {
   isUserSettingsModalOpen: boolean;
@@ -31,6 +33,9 @@ export default function Settings({
     shortBreakDuration,
     longBreakDuration,
   });
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.up("md"));
 
   const { data: possibleBGColors } =
     api.unlockedSettings.getUnlockedBGColors.useQuery();
@@ -77,9 +82,13 @@ export default function Settings({
               setTimers({ ...timers, pomoDuration: e.target.value })
             }
             required
-            sx={{
-              width: "6rem",
-            }}
+            sx={
+              isMobile
+                ? {
+                    width: "6rem",
+                  }
+                : null
+            }
           />
           <TextField
             type="text"
@@ -92,9 +101,13 @@ export default function Settings({
             onChange={(e) =>
               setTimers({ ...timers, shortBreakDuration: e.target.value })
             }
-            sx={{
-              width: "6rem",
-            }}
+            sx={
+              isMobile
+                ? {
+                    width: "6rem",
+                  }
+                : null
+            }
           />
           <TextField
             type="text"
@@ -107,14 +120,18 @@ export default function Settings({
             onChange={(e) =>
               setTimers({ ...timers, longBreakDuration: e.target.value })
             }
-            sx={{
-              width: "6rem",
-            }}
+            sx={
+              isMobile
+                ? {
+                    width: "6rem",
+                  }
+                : null
+            }
           />
           <Button type="submit">change pomo duration</Button>
         </div>
       </form>
-      <Divider />
+      <Divider className="py-5" />
       <button
         className="absolute right-5 top-3  text-2xl  font-bold transition hover:scale-110"
         onClick={off}
