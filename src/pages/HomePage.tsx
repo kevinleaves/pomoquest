@@ -104,7 +104,7 @@ export const HomePage: NextPage = () => {
           ) : null}
         </SignedOut>
         <SignedIn>
-          <div className="flex gap-2">
+          <div className="flex w-5/6 justify-center gap-2">
             {["pomodoro", "shortBreak", "longBreak"].map((status, index) => (
               <Button
                 key={index}

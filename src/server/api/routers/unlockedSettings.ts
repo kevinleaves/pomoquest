@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
+import { TRPCError } from "@trpc/server";
 
 export const unlockedSettingsRouter = createTRPCRouter({
   getUnlockedBGColors: privateProcedure.query(async ({ ctx }) => {
@@ -72,7 +73,10 @@ export const unlockedSettingsRouter = createTRPCRouter({
           },
         });
       } else {
-        throw new Error("Insufficient coins.");
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Insufficient coins.",
+        });
       }
     }),
 });

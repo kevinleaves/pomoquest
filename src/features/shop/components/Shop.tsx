@@ -2,49 +2,38 @@ import React, { useState } from "react";
 import { api } from "~/utils/api";
 import type { Unlockable } from "@prisma/client";
 import { Snackbar, Alert } from "@mui/material";
+import useToggle from "~/features/timer/hooks/useToogle";
 
 interface Props {
   isShopOpen: boolean;
   off: () => void;
 }
 
-function PurchaseFeedback() {
-  const [open, setOpen] = useState(false);
-
-  const handlePurchase = () => {
-    setOpen(true); // Show the Snackbar after successful purchase
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <button onClick={handlePurchase}>Make Purchase</button>
-
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          Purchase Successful!
-        </Alert>
-      </Snackbar>
-    </div>
-  );
-}
-
 export default function Shop({ isShopOpen, off }: Props) {
   const [currentlySelected, setCurrentlySelected] = useState(0);
+  const [feedbackStatus, { on: feedbackOn, off: feedbackOff }] = useToggle();
+
   const { data: purchasableBGColors, isLoading } =
     api.unlockedSettings.getLockedBGColors.useQuery();
 
   const { mutate: purchaseItem, isLoading: isPurchasing } =
-    api.unlockedSettings.purchaseItem.useMutation();
+    api.unlockedSettings.purchaseItem.useMutation({});
 
-  const { mutate: subtractCoins } = api.coins.subtractCoins.useMutation();
+  const {
+    mutate: subtractCoins,
+    isError: subtractIsError,
+    error: subtractError,
+  } = api.coins.subtractCoins.useMutation({
+    onSuccess: () => {
+      feedbackOn();
+    },
+    onError: () => {
+      feedbackOn();
+    },
+  });
 
   function buyItem(item: Unlockable) {
     // logic to buy an item
-    console.log("bought!");
     /*
     on purchase click,
     grab row's ID
@@ -63,7 +52,18 @@ export default function Shop({ isShopOpen, off }: Props) {
   return isShopOpen ? (
     <div className="rounded-xl bg-white p-10 font-archivo md:fixed md:left-1/2 md:top-1/2 md:h-3/4 md:w-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
       <div className="text-center font-publicSans text-3xl font-bold">SHOP</div>
-      <PurchaseFeedback />
+      {feedbackStatus ? (
+        <Snackbar
+          open={feedbackStatus}
+          autoHideDuration={3000}
+          onClose={feedbackOff}
+        >
+          <Alert severity={subtractIsError ? "error" : "success"}>
+            {subtractIsError ? subtractError?.message : "Successful purchase!"}
+          </Alert>
+        </Snackbar>
+      ) : null}
+
       <button
         className="absolute right-5 top-0 text-2xl transition hover:scale-110"
         onClick={off}
@@ -77,7 +77,7 @@ export default function Shop({ isShopOpen, off }: Props) {
             onClick={() => setCurrentlySelected(index)}
             className={`flex w-5/6 justify-between ${
               index === currentlySelected
-                ? "rounded-xl border-2 bg-gray-900 p-4 text-white"
+                ? "rounded-xl bg-gray-900 text-white"
                 : ""
             }`}
           >

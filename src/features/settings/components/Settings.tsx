@@ -41,7 +41,6 @@ export default function Settings({
     api.unlockedSettings.getUnlockedBGColors.useQuery();
 
   const handleSubmit = (e: React.SyntheticEvent) => {
-    console.log("submitted");
     e.preventDefault();
     const pomoDuration = timers.pomoDuration.toString();
     const shortDuration = timers.shortBreakDuration.toString();
