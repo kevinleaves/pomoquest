@@ -55,7 +55,7 @@ export default function Settings({
       <Divider className="py-5" textAlign="left">
         theme
       </Divider>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap justify-center gap-2">
         {possibleBGColors?.map((color) => (
           <button
             key={color.id}

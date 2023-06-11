@@ -13,11 +13,16 @@ export default function Shop({ isShopOpen, off }: Props) {
   const [currentlySelected, setCurrentlySelected] = useState(0);
   const [feedbackStatus, { on: feedbackOn, off: feedbackOff }] = useToggle();
 
+  const ctx = api.useContext();
   const { data: purchasableBGColors, isLoading } =
     api.unlockedSettings.getLockedBGColors.useQuery();
 
   const { mutate: purchaseItem, isLoading: isPurchasing } =
-    api.unlockedSettings.purchaseItem.useMutation({});
+    api.unlockedSettings.purchaseItem.useMutation({
+      onSuccess: () => {
+        void ctx.unlockedSettings.getLockedBGColors.invalidate();
+      },
+    });
 
   const {
     mutate: subtractCoins,
@@ -26,6 +31,7 @@ export default function Shop({ isShopOpen, off }: Props) {
   } = api.coins.subtractCoins.useMutation({
     onSuccess: () => {
       feedbackOn();
+      void ctx.coins.getCoins.invalidate();
     },
     onError: () => {
       feedbackOn();
