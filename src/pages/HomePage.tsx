@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
-import { Dialog, Button, duration } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { Dialog, Button, Snackbar, Alert, duration } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import {} from "@mui/material";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Timer from "~/features/timer/components/Timer";
 import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
@@ -21,6 +24,11 @@ export const HomePage: NextPage = () => {
   ] = useToggle();
 
   const [isShopOpen, { toggle: toggleShop, off: exitShop }] = useToggle();
+  const [toastStatus, { on: toastOn, off: toastOff, toggle: toggleToast }] =
+    useToggle();
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.up("md"));
 
   const {
     data: {
@@ -122,6 +130,7 @@ export const HomePage: NextPage = () => {
               seconds={minutesToSeconds(pomoDuration)}
               alarmSound={"/basicalarm.wav"}
               setTimerView={setTimerView}
+              toastOn={toastOn}
             />
           ) : null}
           {timerView === "shortBreak" ? (
@@ -165,6 +174,23 @@ export const HomePage: NextPage = () => {
             view all notes
           </Button>
         </SignedIn>
+        <div>
+          {toastStatus ? (
+            <Snackbar
+              sx={{ height: "15%" }}
+              open={toastStatus}
+              // autoHideDuration={5000}
+              onClose={toastOff}
+              anchorOrigin={
+                isMobile
+                  ? { vertical: "top", horizontal: "right" }
+                  : { vertical: "bottom", horizontal: "right" }
+              }
+            >
+              <Alert severity="info">here!</Alert>
+            </Snackbar>
+          ) : null}
+        </div>
       </main>
     </>
   );
