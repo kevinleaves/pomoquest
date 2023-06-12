@@ -9,9 +9,15 @@ interface Props {
   seconds: number;
   alarmSound: string;
   setTimerView: React.Dispatch<React.SetStateAction<string>>;
+  toastOn?: () => void;
 }
 
-export default function Timer({ seconds, alarmSound, setTimerView }: Props) {
+export default function Timer({
+  seconds,
+  alarmSound,
+  setTimerView,
+  toastOn,
+}: Props) {
   const [time, setTime] = useState(seconds);
   const [status, { off: stopTimer, toggle: toggleTimer }] = useToggle();
 
@@ -44,12 +50,14 @@ export default function Timer({ seconds, alarmSound, setTimerView }: Props) {
   // function to fire sideeffects when timer runs out
   const handleTimerEnd = useCallback(() => {
     stopTimer();
-    addCoins({ amount: 25 });
+    addCoins({ amount: seconds / 60 });
     playAlarm();
     // set timer view based on prior state
     setTimerView((prevTimerView) => {
       switch (prevTimerView) {
         case "pomodoro":
+          console.log("i can fire sideeffects in here?"); // THIS WORKS
+          toastOn?.();
           return "shortBreak";
         case "shortBreak":
           return "pomodoro";
