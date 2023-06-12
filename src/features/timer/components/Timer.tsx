@@ -52,12 +52,13 @@ export default function Timer({
     stopTimer();
     addCoins({ amount: seconds / 60 });
     playAlarm();
+    toastOn?.();
     // set timer view based on prior state
     setTimerView((prevTimerView) => {
       switch (prevTimerView) {
         case "pomodoro":
           console.log("i can fire sideeffects in here?"); // THIS WORKS
-          toastOn?.();
+
           return "shortBreak";
         case "shortBreak":
           return "pomodoro";

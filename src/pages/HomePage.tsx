@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useTheme } from "@mui/material/styles";
-import { Dialog, Button, Snackbar, Alert, duration } from "@mui/material";
+import { Dialog, Button, Snackbar, Alert } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import {} from "@mui/material";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Timer from "~/features/timer/components/Timer";
 import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
@@ -24,8 +23,7 @@ export const HomePage: NextPage = () => {
   ] = useToggle();
 
   const [isShopOpen, { toggle: toggleShop, off: exitShop }] = useToggle();
-  const [toastStatus, { on: toastOn, off: toastOff, toggle: toggleToast }] =
-    useToggle();
+  const [toastStatus, { on: toastOn, off: toastOff }] = useToggle();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.up("md"));
@@ -43,9 +41,9 @@ export const HomePage: NextPage = () => {
   } = useUserSettings();
 
   const durations = {
-    pomo: pomoDuration,
-    short: shortBreakDuration,
-    long: longBreakDuration,
+    pomodoro: pomoDuration,
+    shortBreak: shortBreakDuration,
+    longBreak: longBreakDuration,
   };
 
   const {
@@ -84,6 +82,12 @@ export const HomePage: NextPage = () => {
                 variant="contained"
                 color="success"
                 className="drop-shadow-lessBrutal"
+                sx={{
+                  bgcolor: timerView === status ? "black" : undefined,
+                  "&:hover": {
+                    bgcolor: timerView === status ? "black" : undefined,
+                  },
+                }}
               >
                 {status}
               </Button>
@@ -120,6 +124,12 @@ export const HomePage: NextPage = () => {
                 variant="contained"
                 color="success"
                 className="drop-shadow-lessBrutal"
+                sx={{
+                  bgcolor: timerView === status ? "black" : undefined,
+                  "&:hover": {
+                    bgcolor: timerView === status ? "black" : undefined,
+                  },
+                }}
               >
                 {status}
               </Button>
@@ -138,6 +148,7 @@ export const HomePage: NextPage = () => {
               seconds={minutesToSeconds(shortBreakDuration)}
               alarmSound={"/basicalarm.wav"}
               setTimerView={setTimerView}
+              toastOn={toastOn}
             />
           ) : null}
           {timerView === "longBreak" ? (
@@ -145,6 +156,7 @@ export const HomePage: NextPage = () => {
               seconds={minutesToSeconds(longBreakDuration)}
               alarmSound={"/basicalarm.wav"}
               setTimerView={setTimerView}
+              toastOn={toastOn}
             />
           ) : null}
 
@@ -187,7 +199,13 @@ export const HomePage: NextPage = () => {
                   : { vertical: "bottom", horizontal: "right" }
               }
             >
-              <Alert severity="info">here!</Alert>
+              <Alert severity="info">
+                {`${durations[timerView as keyof typeof durations]} ${
+                  durations[timerView as keyof typeof durations] === 1
+                    ? "coin"
+                    : "coins"
+                } added!`}
+              </Alert>
             </Snackbar>
           ) : null}
         </div>
