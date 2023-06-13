@@ -29,6 +29,21 @@ export default function useUserSettings() {
     mutateBgColor({ hexValue });
   };
 
+  const { mutate: mutatePomoduration } =
+    api.settings.mutatePomoduration.useMutation({
+      onSuccess: () => {
+        void ctx.settings.getAllUserSettings.invalidate();
+      },
+    });
+
+  const updatePomoDuration = (
+    pomoduration: string,
+    shortduration: string,
+    longduration: string
+  ) => {
+    mutatePomoduration({ pomoduration, shortduration, longduration });
+  };
+
   return {
     data: {
       bgColor: userSettings?.["bg-color"] ?? "",
@@ -39,6 +54,7 @@ export default function useUserSettings() {
     },
     mutations: {
       updateBgColor,
+      updatePomoDuration,
     },
     loading: {
       isUserSettingsLoading,

@@ -18,8 +18,8 @@ export default function Navbar({
   toggleShop,
 }: Props) {
   return (
-    <div className="flex w-full flex-wrap items-center justify-between border-b border-slate-300 bg-[#FFFFFF] p-2 md:h-16">
-      <h1 className="justify-self-center text-center text-xl font-extrabold text-black md:text-3xl ">
+    <div className="flex h-28 w-full flex-wrap items-center justify-center border-b-2 border-black bg-[#FFFFFF] p-2 md:h-16 md:justify-between">
+      <h1 className="text-4xl font-extrabold text-black md:text-3xl">
         pomoquest
       </h1>
       <div className="flex gap-2 md:gap-5">

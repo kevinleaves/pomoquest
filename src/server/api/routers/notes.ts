@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { clerkClient } from "@clerk/nextjs/server";
 
 import {
   createTRPCRouter,
@@ -16,10 +15,13 @@ export const notesRouter = createTRPCRouter({
       };
     }),
   getAll: privateProcedure.query(async ({ ctx }) => {
+    const userId = ctx.currentUser;
     const notes = await ctx.prisma.note.findMany({
+      where: {
+        authorId: userId,
+      },
       take: 10,
     });
-    // const users = await clerkClient.users.getUserList();
     return notes;
   }),
   createNote: privateProcedure

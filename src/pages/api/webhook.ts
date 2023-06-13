@@ -116,6 +116,27 @@ export default async function handler(
         {
           userId,
           type: "bg-color",
+          value: "#E53E3E",
+          label: "red",
+          cost: 200,
+        },
+        {
+          userId,
+          type: "bg-color",
+          value: "#FBBF24",
+          label: "yellow",
+          cost: 200,
+        },
+        {
+          userId,
+          type: "bg-color",
+          value: "#1F2937",
+          label: "navy",
+          cost: 200,
+        },
+        {
+          userId,
+          type: "bg-color",
           value: "#69D2E7",
           label: "blue",
           cost: 50,
