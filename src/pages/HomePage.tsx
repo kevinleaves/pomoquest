@@ -16,6 +16,7 @@ import Settings from "~/features/settings/components/Settings";
 
 export const HomePage: NextPage = () => {
   const [timerView, setTimerView] = useState("pomodoro");
+  const [toastCoins, setToastCoins] = useState(0);
 
   const [
     isUserSettingsModalOpen,
@@ -23,7 +24,13 @@ export const HomePage: NextPage = () => {
   ] = useToggle();
 
   const [isShopOpen, { toggle: toggleShop, off: exitShop }] = useToggle();
-  const [toastStatus, { on: toastOn, off: toastOff }] = useToggle();
+
+  const [toastStatus, { on: setToastOn, off: toastOff }] = useToggle();
+
+  const toastOn = (coinValue: number) => {
+    setToastCoins(coinValue);
+    setToastOn();
+  };
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.up("md"));
@@ -39,12 +46,6 @@ export const HomePage: NextPage = () => {
     mutations: { updateBgColor, updatePomoDuration },
     loading: { isUserSettingsLoading },
   } = useUserSettings();
-
-  const durations = {
-    pomodoro: pomoDuration,
-    shortBreak: shortBreakDuration,
-    longBreak: longBreakDuration,
-  };
 
   const {
     data: { coinAmount },
@@ -191,7 +192,7 @@ export const HomePage: NextPage = () => {
             <Snackbar
               sx={{ height: "15%" }}
               open={toastStatus}
-              // autoHideDuration={5000}
+              autoHideDuration={5000}
               onClose={toastOff}
               anchorOrigin={
                 isMobile
@@ -200,11 +201,7 @@ export const HomePage: NextPage = () => {
               }
             >
               <Alert severity="info">
-                {`${durations[timerView as keyof typeof durations]} ${
-                  durations[timerView as keyof typeof durations] === 1
-                    ? "coin"
-                    : "coins"
-                } added!`}
+                {`${toastCoins} ${toastCoins === 1 ? "coin" : "coins"} earned!`}
               </Alert>
             </Snackbar>
           ) : null}

@@ -9,7 +9,7 @@ interface Props {
   seconds: number;
   alarmSound: string;
   setTimerView: React.Dispatch<React.SetStateAction<string>>;
-  toastOn?: () => void;
+  toastOn?: (coinValue: number) => void;
 }
 
 export default function Timer({
@@ -52,13 +52,12 @@ export default function Timer({
     stopTimer();
     addCoins({ amount: seconds / 60 });
     playAlarm();
-    toastOn?.();
+    toastOn?.(seconds / 60);
     // set timer view based on prior state
     setTimerView((prevTimerView) => {
       switch (prevTimerView) {
         case "pomodoro":
           console.log("i can fire sideeffects in here?"); // THIS WORKS
-
           return "shortBreak";
         case "shortBreak":
           return "pomodoro";
