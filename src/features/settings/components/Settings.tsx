@@ -131,7 +131,7 @@ export default function Settings({
       </form>
       <Divider className="py-5" />
       <button
-        className="absolute right-5 top-3  text-2xl  font-bold transition hover:scale-110"
+        className="absolute right-5 top-3  text-2xl font-normal transition hover:scale-110"
         onClick={off}
       >
         close

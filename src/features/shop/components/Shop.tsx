@@ -80,34 +80,38 @@ export default function Shop({ isShopOpen, off }: Props) {
       ) : null}
 
       <button
-        className="absolute right-5 top-0 text-2xl transition hover:scale-110"
+        className="absolute right-5 top-3 text-2xl  font-normal transition hover:scale-110"
         onClick={off}
       >
         close
       </button>
       <div className="flex h-5/6 w-full flex-col items-center gap-2 rounded-xl">
-        {purchasableBGColors?.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => setCurrentlySelected(index)}
-            className={`flex w-full justify-between md:w-5/6 ${
-              index === currentlySelected
-                ? "rounded-xl bg-gray-900 text-white"
-                : ""
-            }`}
-          >
-            <button
-              className="h-16 w-16 rounded-lg md:h-20 md:w-20"
-              style={{ backgroundColor: item.value }}
-            ></button>
-            <button
-              className="transition hover:text-red-500"
-              onClick={() => buyItem(item)}
+        {purchasableBGColors
+          ?.sort((a, b) => {
+            return a.cost - b.cost;
+          })
+          .map((item, index) => (
+            <div
+              key={index}
+              onClick={() => setCurrentlySelected(index)}
+              className={`flex w-full justify-between md:w-5/6 ${
+                index === currentlySelected
+                  ? "rounded-xl bg-gray-900 text-white"
+                  : ""
+              }`}
             >
-              {item.cost} coins
-            </button>
-          </div>
-        ))}
+              <button
+                className="h-16 w-16 rounded-lg md:h-20 md:w-20"
+                style={{ backgroundColor: item.value }}
+              ></button>
+              <button
+                className="transition hover:text-red-500"
+                onClick={() => buyItem(item)}
+              >
+                {item.cost} coins
+              </button>
+            </div>
+          ))}
       </div>
     </div>
   ) : null;
