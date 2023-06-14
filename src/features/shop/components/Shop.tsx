@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { api } from "~/utils/api";
 import type { Unlockable } from "@prisma/client";
-import { Snackbar, Alert } from "@mui/material";
+import { Snackbar, Alert, Divider } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import useToggle from "~/features/timer/hooks/useToogle";
 
 interface Props {
@@ -11,6 +13,10 @@ interface Props {
 
 export default function Shop({ isShopOpen, off }: Props) {
   const [currentlySelected, setCurrentlySelected] = useState(0);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   const [feedbackStatus, { on: feedbackOn, off: feedbackOff }] = useToggle();
 
   const ctx = api.useContext();
@@ -56,8 +62,11 @@ export default function Shop({ isShopOpen, off }: Props) {
   }
 
   return isShopOpen ? (
-    <div className="rounded-xl bg-white p-10 font-archivo md:fixed md:left-1/2 md:top-1/2 md:h-3/4 md:w-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
-      <div className="text-center font-publicSans text-3xl font-bold">SHOP</div>
+    <div className="h-full overflow-y-auto rounded-xl bg-white p-10 font-publicSans md:fixed md:left-1/2 md:top-1/2 md:h-3/4 md:w-1/2 md:-translate-x-1/2 md:-translate-y-1/2	">
+      <div className=" font-publicSans text-2xl font-bold">SHOP</div>
+      <Divider className="py-5" textAlign={isMobile ? "left" : "center"}>
+        themes
+      </Divider>
       {feedbackStatus ? (
         <Snackbar
           open={feedbackStatus}
@@ -76,19 +85,19 @@ export default function Shop({ isShopOpen, off }: Props) {
       >
         close
       </button>
-      <div className="flex h-5/6 flex-col items-center gap-2 rounded-xl">
+      <div className="flex h-5/6 w-full flex-col items-center gap-2 rounded-xl">
         {purchasableBGColors?.map((item, index) => (
           <div
             key={index}
             onClick={() => setCurrentlySelected(index)}
-            className={`flex w-5/6 justify-between ${
+            className={`flex w-full justify-between md:w-5/6 ${
               index === currentlySelected
                 ? "rounded-xl bg-gray-900 text-white"
                 : ""
             }`}
           >
             <button
-              className="h-20 w-20 rounded-lg"
+              className="h-16 w-16 rounded-lg md:h-20 md:w-20"
               style={{ backgroundColor: item.value }}
             ></button>
             <button

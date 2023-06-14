@@ -35,7 +35,7 @@ export default function Settings({
   });
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.up("md"));
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   const { data: possibleBGColors } =
     api.unlockedSettings.getUnlockedBGColors.useQuery();
@@ -50,9 +50,9 @@ export default function Settings({
   };
 
   return isUserSettingsModalOpen ? (
-    <div className="h-full rounded-xl bg-white p-10 font-publicSans md:fixed md:left-1/2 md:top-1/2 md:h-3/4 md:w-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
-      <div className="text-2xl font-bold">Settings</div>
-      <Divider className="py-5" textAlign="left">
+    <div className="h-full overflow-y-auto rounded-xl bg-white p-10 font-publicSans	md:fixed md:left-1/2 md:top-1/2 md:h-3/4 md:w-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
+      <div className="w-3/4 text-2xl font-bold">Settings</div>
+      <Divider className="py-5" textAlign={isDesktop ? "left" : "center"}>
         theme
       </Divider>
       <div className="flex flex-wrap justify-center gap-2">
@@ -65,7 +65,7 @@ export default function Settings({
           ></button>
         ))}
       </div>
-      <Divider className="py-5" textAlign="left">
+      <Divider className="py-5" textAlign={isDesktop ? "left" : "center"}>
         duration
       </Divider>
       <form onSubmit={handleSubmit}>
@@ -81,7 +81,7 @@ export default function Settings({
             }
             required
             sx={
-              isMobile
+              isDesktop
                 ? {
                     width: "6rem",
                   }
@@ -99,7 +99,7 @@ export default function Settings({
               setTimers({ ...timers, shortBreakDuration: e.target.value })
             }
             sx={
-              isMobile
+              isDesktop
                 ? {
                     width: "6rem",
                   }
@@ -117,7 +117,7 @@ export default function Settings({
               setTimers({ ...timers, longBreakDuration: e.target.value })
             }
             sx={
-              isMobile
+              isDesktop
                 ? {
                     width: "6rem",
                   }
