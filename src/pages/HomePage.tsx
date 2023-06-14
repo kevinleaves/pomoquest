@@ -161,7 +161,11 @@ export const HomePage: NextPage = () => {
             />
           ) : null}
 
-          <Dialog open={isUserSettingsModalOpen} onClose={exitSettings}>
+          <Dialog
+            open={isUserSettingsModalOpen}
+            onClose={exitSettings}
+            fullWidth={true}
+          >
             <Settings
               isUserSettingsModalOpen={isUserSettingsModalOpen}
               off={exitSettings}
@@ -174,7 +178,7 @@ export const HomePage: NextPage = () => {
               updatePomoDuration={updatePomoDuration}
             />
           </Dialog>
-          <Dialog open={isShopOpen} onClose={exitShop}>
+          <Dialog open={isShopOpen} onClose={exitShop} fullWidth={true}>
             <Shop isShopOpen={isShopOpen} off={exitShop} />
           </Dialog>
 
