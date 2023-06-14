@@ -25,7 +25,7 @@ export default function Navbar({
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
-    <div className="flex h-28 w-full flex-wrap items-center justify-around border-b-2 border-black bg-[#FFFFFF] p-2 md:h-16 md:justify-between">
+    <div className="flex h-16 w-full flex-wrap items-center justify-around border-b-2 border-black bg-[#FFFFFF] p-2 md:h-16 md:justify-between">
       <h1 className="text-2xl font-extrabold text-black md:text-3xl">
         pomoquest
       </h1>
@@ -67,9 +67,10 @@ export default function Navbar({
               startIcon={<StoreIcon />}
               sx={{
                 minWidth: "1rem",
-                "& .MuiButton-startIcon": { marginRight: "0px" },
               }}
-            ></Button>
+            >
+              {coinAmount?.toLocaleString()}
+            </Button>
           ) : (
             <Button
               variant="contained"
