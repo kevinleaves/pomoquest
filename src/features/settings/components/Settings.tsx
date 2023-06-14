@@ -51,11 +51,11 @@ export default function Settings({
 
   return isUserSettingsModalOpen ? (
     <div className="h-full overflow-y-auto rounded-xl bg-white p-10 font-publicSans	md:fixed md:left-1/2 md:top-1/2 md:h-3/4 md:w-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
-      <div className="w-3/4 text-2xl font-bold">Settings</div>
-      <Divider className="py-5" textAlign={isDesktop ? "left" : "center"}>
+      <div className="text-2xl font-bold">Settings</div>
+      <Divider className="py-5" textAlign={isDesktop ? "center" : "left"}>
         theme
       </Divider>
-      <div className="flex flex-wrap justify-center gap-2">
+      <div className="flex flex-wrap justify-center gap-2 md:justify-start">
         {possibleBGColors?.map((color) => (
           <button
             key={color.id}
@@ -65,11 +65,11 @@ export default function Settings({
           ></button>
         ))}
       </div>
-      <Divider className="py-5" textAlign={isDesktop ? "left" : "center"}>
+      <Divider className="py-5" textAlign={isDesktop ? "center" : "left"}>
         duration
       </Divider>
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-5 md:flex-row">
+        <div className="flex flex-col justify-between gap-5 md:flex-row">
           <TextField
             type="text"
             value={timers.pomoDuration}
@@ -124,7 +124,9 @@ export default function Settings({
                 : null
             }
           />
-          <Button type="submit">change pomo duration</Button>
+          <Button type="submit" variant="contained" size="small">
+            change pomo duration
+          </Button>
         </div>
       </form>
       <Divider className="py-5" />
