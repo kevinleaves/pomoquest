@@ -75,7 +75,7 @@ export const HomePage: NextPage = () => {
           toggleShop={toggleShop}
         />
         <SignedOut>
-          <div className="flex gap-2">
+          <div className="flex w-5/6 gap-2">
             {["pomodoro", "shortBreak", "longBreak"].map((status, index) => (
               <Button
                 key={index}
