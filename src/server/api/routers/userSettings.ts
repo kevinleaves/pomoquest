@@ -1,6 +1,16 @@
 import { z } from "zod";
 
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
+import { TRPCError } from "@trpc/server";
+
+const redis = Redis.fromEnv();
+// ratelimiter, limits requests to 3 per 1 minute by IP
+const ratelimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(3, "60 s"),
+});
 
 export const settingsRouter = createTRPCRouter({
   getCurrentBgColor: privateProcedure.query(async ({ ctx }) => {
@@ -149,6 +159,11 @@ export const settingsRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const userID = ctx.currentUser;
+      const { success, pending, limit, reset, remaining } =
+        await ratelimit.limit(userID);
+
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+
       const { pomoduration, shortduration, longduration } = input;
       await ctx.prisma.userSetting.updateMany({
         where: {

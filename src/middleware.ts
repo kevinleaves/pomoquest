@@ -1,34 +1,7 @@
 import { authMiddleware } from "@clerk/nextjs";
 
-import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
-
-const redis = Redis.fromEnv();
-
-// ratelimiter, limits requests to 3 per 1 minute by IP
-const ratelimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(3, "60 s"),
-});
-
-async function middleware(
-  request: NextRequest,
-  event: NextFetchEvent
-): Promise<Response | undefined> {
-  const ip = request.ip ?? "127.0.0.1";
-  const { success, pending, limit, reset, remaining } = await ratelimit.limit(
-    ip
-  );
-  return success
-    ? NextResponse.next()
-    : NextResponse.redirect(new URL("/blocked", request.url));
-}
-
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-export default authMiddleware({
-  beforeAuth: middleware,
-});
+export default authMiddleware();
 
 export const config = {
   matcher: [
