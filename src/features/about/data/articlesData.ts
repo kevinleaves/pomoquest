@@ -17,8 +17,8 @@ export const articlesData = [
   {
     title: "How do you use the Pomodoro Technique?",
     content: [
-      "Select a task to focus on",
-      "Start the pomodoro timer and concentrate on the task for its duration",
+      "Select a task to focus on.",
+      "Start the pomodoro timer and concentrate on the task for its duration.",
       "Take a short break when the alarm rings (completion of a pomodoro + break is 1 cycle)",
       "After 3 or 4 cycles, take a long break. (usually 15 minutes)",
       "Repeat the process until you finish your tasks.",
