@@ -5,14 +5,15 @@ import { useTheme } from "@mui/material/styles";
 import { Dialog, Button, Snackbar, Alert } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import Timer from "~/features/timer/components/Timer";
-import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
-import Navbar from "~/features/navbar/components/Navbar";
-import useToggle from "~/features/timer/hooks/useToogle";
-import Shop from "~/features/shop/components/Shop";
 import useUserSettings from "~/features/settings/hooks/useUserSettings";
+import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
+import useToggle from "~/features/timer/hooks/useToogle";
 import useShop from "~/features/shop/hooks/useShop";
+import Navbar from "~/features/navbar/components/Navbar";
+import Shop from "~/features/shop/components/Shop";
+import Timer from "~/features/timer/components/Timer";
 import Settings from "~/features/settings/components/Settings";
+import About from "~/features/about/components/About";
 
 export const HomePage: NextPage = () => {
   const [timerView, setTimerView] = useState("pomodoro");
@@ -214,6 +215,7 @@ export const HomePage: NextPage = () => {
           ) : null}
         </div>
       </main>
+      <About />
     </>
   );
 };
