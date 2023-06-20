@@ -60,7 +60,10 @@ export const HomePage: NextPage = () => {
     <>
       <Head>
         <title>pomoquest.io</title>
-        <meta name="description" content="a new way to grind" />
+        <meta
+          name="description"
+          content="a gamified pomodoro timer that improves your productivity"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
