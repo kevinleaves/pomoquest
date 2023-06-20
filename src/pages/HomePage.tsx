@@ -75,7 +75,7 @@ export const HomePage: NextPage = () => {
           toggleShop={toggleShop}
         />
         <SignedOut>
-          <div className="flex gap-2">
+          <div className="flex w-5/6 justify-center gap-2">
             {["pomodoro", "shortBreak", "longBreak"].map((status, index) => (
               <Button
                 key={index}
@@ -161,7 +161,11 @@ export const HomePage: NextPage = () => {
             />
           ) : null}
 
-          <Dialog open={isUserSettingsModalOpen} onClose={exitSettings}>
+          <Dialog
+            open={isUserSettingsModalOpen}
+            onClose={exitSettings}
+            fullWidth={true}
+          >
             <Settings
               isUserSettingsModalOpen={isUserSettingsModalOpen}
               off={exitSettings}
@@ -174,7 +178,7 @@ export const HomePage: NextPage = () => {
               updatePomoDuration={updatePomoDuration}
             />
           </Dialog>
-          <Dialog open={isShopOpen} onClose={exitShop}>
+          <Dialog open={isShopOpen} onClose={exitShop} fullWidth={true}>
             <Shop isShopOpen={isShopOpen} off={exitShop} />
           </Dialog>
 

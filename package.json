@@ -12,9 +12,10 @@
   "dependencies": {
     "@clerk/nextjs": "^4.16.4",
     "@clerk/themes": "^1.7.4",
-    "@emotion/react": "^11.11.0",
+    "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.13.1",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.5",
     "@prisma/client": "^4.11.0",
     "@t3-oss/env-nextjs": "^0.2.1",
     "@tanstack/react-query": "^4.28.0",
