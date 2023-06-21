@@ -14,6 +14,7 @@ import Shop from "~/features/shop/components/Shop";
 import Timer from "~/features/timer/components/Timer";
 import Settings from "~/features/settings/components/Settings";
 import About from "~/features/about/components/About";
+import Footer from "~/features/footer/components/Footer";
 
 export const HomePage: NextPage = () => {
   const [timerView, setTimerView] = useState("pomodoro");
@@ -216,6 +217,7 @@ export const HomePage: NextPage = () => {
         </div>
       </main>
       <About />
+      <Footer />
     </>
   );
 };
