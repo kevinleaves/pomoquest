@@ -187,14 +187,14 @@ export const HomePage: NextPage = () => {
             <Shop isShopOpen={isShopOpen} off={exitShop} />
           </Dialog>
 
-          <Button
+          {/* <Button
             href="/notes"
             variant="contained"
             color="error"
             className="drop-shadow-lessBrutal"
           >
             view all notes
-          </Button>
+          </Button> */}
         </SignedIn>
         <div>
           {toastStatus ? (
