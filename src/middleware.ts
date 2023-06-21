@@ -1,10 +1,7 @@
-import { withClerkMiddleware } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { authMiddleware } from "@clerk/nextjs";
 
-export default withClerkMiddleware(() => {
-  console.log("middleware running...");
-  return NextResponse.next();
-});
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+export default authMiddleware();
 
 export const config = {
   matcher: [
