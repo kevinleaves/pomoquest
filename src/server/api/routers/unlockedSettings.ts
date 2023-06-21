@@ -63,42 +63,42 @@ export const unlockedSettingsRouter = createTRPCRouter({
 
       const { itemId } = input;
 
-      if (success) {
-        const user = await ctx.prisma.user.findUnique({
-          where: {
-            id: userID,
-          },
-          select: {
-            coins: true,
-          },
-        });
-        const item = await ctx.prisma.unlockable.findUnique({
-          where: {
-            id: itemId,
-          },
-          select: {
-            cost: true,
-          },
-        });
-        if (user && item && user.coins >= item.cost) {
-          await ctx.prisma.unlockable.update({
-            where: {
-              id: itemId,
-            },
-            data: {
-              purchased: true,
-            },
-          });
-        } else {
-          throw new TRPCError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: "Insufficient coins.",
-          });
-        }
-      } else {
+      if (!success) {
         throw new TRPCError({
           code: "TOO_MANY_REQUESTS",
           message: "Too many requests. Try again in a bit.",
+        });
+      }
+
+      const user = await ctx.prisma.user.findUnique({
+        where: {
+          id: userID,
+        },
+        select: {
+          coins: true,
+        },
+      });
+      const item = await ctx.prisma.unlockable.findUnique({
+        where: {
+          id: itemId,
+        },
+        select: {
+          cost: true,
+        },
+      });
+      if (user && item && user.coins >= item.cost) {
+        await ctx.prisma.unlockable.update({
+          where: {
+            id: itemId,
+          },
+          data: {
+            purchased: true,
+          },
+        });
+      } else {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Insufficient coins.",
         });
       }
     }),

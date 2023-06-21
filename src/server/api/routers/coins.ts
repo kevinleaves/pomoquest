@@ -74,35 +74,35 @@ export const coinsRouter = createTRPCRouter({
       const { amount } = input;
       const { success } = await ratelimit.limit(userID);
 
-      if (success) {
-        const user = await ctx.prisma.user.findUnique({
-          where: {
-            id: userID,
-          },
-          select: {
-            coins: true,
-          },
-        });
-
-        if (user && user.coins >= amount) {
-          await ctx.prisma.user.update({
-            where: {
-              id: userID,
-            },
-            data: {
-              coins: {
-                decrement: amount,
-              },
-            },
-          });
-        } else {
-          throw new Error("Insufficient coins.");
-        }
-      } else {
+      if (!success) {
         throw new TRPCError({
           code: "TOO_MANY_REQUESTS",
           message: "Too many requests. Try again in a bit.",
         });
+      }
+
+      const user = await ctx.prisma.user.findUnique({
+        where: {
+          id: userID,
+        },
+        select: {
+          coins: true,
+        },
+      });
+
+      if (user && user.coins >= amount) {
+        await ctx.prisma.user.update({
+          where: {
+            id: userID,
+          },
+          data: {
+            coins: {
+              decrement: amount,
+            },
+          },
+        });
+      } else {
+        throw new Error("Insufficient coins.");
       }
     }),
 });

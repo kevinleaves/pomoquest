@@ -39,11 +39,13 @@ export const settingsRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const userID = ctx.currentUser;
       const { success } = await ratelimitUpdateBG.limit(userID);
-      if (!success)
+      if (!success) {
         throw new TRPCError({
           code: "TOO_MANY_REQUESTS",
           message: "Too many requests. Try again in a bit.",
         });
+      }
+
       const { hexValue } = input;
       await ctx.prisma.userSetting.updateMany({
         where: {
