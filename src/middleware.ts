@@ -1,9 +1,7 @@
-import { withClerkMiddleware } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { authMiddleware } from "@clerk/nextjs";
 
-export default withClerkMiddleware(() => {
-  console.log("middleware running...");
-  return NextResponse.next();
+export default authMiddleware({
+  publicRoutes: ["/", "/login"],
 });
 
 export const config = {
