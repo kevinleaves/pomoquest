@@ -13,9 +13,9 @@ export default function Login() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex h-screen w-screen flex-col items-center justify-center gap-5">
-        <SignedOut>
+        {/* <SignedOut>
           <SignIn redirectUrl={"/"} />
-        </SignedOut>
+        </SignedOut> */}
       </main>
     </>
   );
