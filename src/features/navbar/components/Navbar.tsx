@@ -97,7 +97,7 @@ export default function Navbar({
         </SignedOut>
         <SignedIn>
           <UserButton
-            afterSignOutUrl={"https://pomoquest.vercel.app/"}
+            // afterSignOutUrl={"https://pomoquest.vercel.app/"}
             appearance={{
               elements: {
                 userButtonTrigger: "rounded-md drop-shadow-lessBrutal",
