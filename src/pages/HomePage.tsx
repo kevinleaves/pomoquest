@@ -5,14 +5,15 @@ import { useTheme } from "@mui/material/styles";
 import { Dialog, Button, Snackbar, Alert } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import Timer from "~/features/timer/components/Timer";
-import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
-import Navbar from "~/features/navbar/components/Navbar";
-import useToggle from "~/features/timer/hooks/useToogle";
-import Shop from "~/features/shop/components/Shop";
 import useUserSettings from "~/features/settings/hooks/useUserSettings";
+import { minutesToSeconds } from "~/features/timer/utils/timerUtils";
+import useToggle from "~/features/timer/hooks/useToogle";
 import useShop from "~/features/shop/hooks/useShop";
+import Navbar from "~/features/navbar/components/Navbar";
+import Shop from "~/features/shop/components/Shop";
+import Timer from "~/features/timer/components/Timer";
 import Settings from "~/features/settings/components/Settings";
+import About from "~/features/about/components/About";
 import Footer from "~/features/footer/components/Footer";
 
 export const HomePage: NextPage = () => {
@@ -61,7 +62,10 @@ export const HomePage: NextPage = () => {
     <>
       <Head>
         <title>pomoquest.io</title>
-        <meta name="description" content="a new way to grind" />
+        <meta
+          name="description"
+          content="a gamified pomodoro timer that improves your productivity"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
@@ -182,15 +186,6 @@ export const HomePage: NextPage = () => {
           <Dialog open={isShopOpen} onClose={exitShop} fullWidth={true}>
             <Shop isShopOpen={isShopOpen} off={exitShop} />
           </Dialog>
-
-          <Button
-            href="/notes"
-            variant="contained"
-            color="error"
-            className="drop-shadow-lessBrutal"
-          >
-            view all notes
-          </Button>
         </SignedIn>
         <div>
           {toastStatus ? (
@@ -212,6 +207,7 @@ export const HomePage: NextPage = () => {
           ) : null}
         </div>
       </main>
+      <About />
       <Footer />
     </>
   );
