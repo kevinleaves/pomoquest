@@ -13,7 +13,7 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      */
-    "/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico).*)",
+    "/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico|api/webhook).*)",
     "/",
   ],
 };
