@@ -3,7 +3,7 @@
 Pomoquest is a production-ready, gamified pomodoro timer designed to enhance productivity. It incorporates the popular pomodoro technique, where work intervals are followed by short breaks, to help users maintain focus and manage their time effectively. The app rewards users with coins upon completion of each timer, which can be utilized to enhance the in-app experience.
 
 ## Trello Board
-![trello board for this project](https://trello.com/b/inFtPmIK/pomoquest)
+[trello board for this project](https://trello.com/b/inFtPmIK/pomodoro)
 
 ## Why use Pomoquest?
 
